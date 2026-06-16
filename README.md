@@ -5,7 +5,7 @@ Launchframe creates auditable launch workspaces for OSS developer-tool launches.
 ```sh
 npx launchframe-cli init my-launch
 cd my-launch
-npx launchframe-cli validate .
+npx launchframe-cli validate . --template
 ```
 
 It is a template and validation system for launches that need more than a checklist in someone else's chat history. A Launchframe workspace keeps product facts, brand facts, repo readiness, policy/trust docs, HN/Reddit copy, launch-day runbooks, visual workflow evidence, pending blockers, and proof artifacts together.
@@ -35,7 +35,7 @@ launchframe validate <dir>
 launchframe evidence <dir>
 ```
 
-`launchframe validate <dir>` is a readiness check and fails on unresolved placeholders in required gate files and selected distribution surfaces. Use `--template` only when validating an unfilled scaffold or template pack.
+`launchframe validate <dir>` is a pre-launch readiness check and fails on unresolved placeholders, missing owner authorization, missing evidence, and incomplete selected distribution surfaces. Use `--template` only when validating an unfilled scaffold or template pack.
 
 ## Repository Layout
 

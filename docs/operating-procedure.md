@@ -30,7 +30,7 @@ Do not publish pricing, hosted-service, BYOK, telemetry, or enterprise claims un
 Check and reserve only the surfaces needed for the launch:
 
 - GitHub org/repo.
-- Selected distribution surfaces from `distribution_surfaces[]`: npm, PyPI, Docker/GHCR, Helm, Figma Community, GitHub Releases, Homebrew, docs site, website, or other.
+- Selected distribution surfaces from `distribution_surfaces[]`: npm, PyPI, Docker/GHCR, Helm, Figma Community, GitHub Releases, Homebrew, docs site, website, trust/privacy, or other.
 - Domain.
 - Site hosting.
 - Capture form/CRM.
@@ -87,13 +87,13 @@ Never solicit votes.
 Run:
 
 ```sh
-launchframe validate .
 launchframe evidence .
+launchframe validate .
 ```
 
 Then verify public deployed state, package install, capture, policy/trust docs, and launch-day runbook.
 
-Normal validation should fail if required placeholders remain. Use `--template` only to validate an unfilled scaffold or template pack.
+`launchframe evidence .` creates the evidence report scaffold from selected distribution surfaces. Normal validation is a pre-launch readiness check and should fail if required placeholders, missing evidence, or incomplete selected surface modules remain. Use `--template` only to validate an unfilled scaffold or template pack.
 
 ## 11. Adversarial Review
 
