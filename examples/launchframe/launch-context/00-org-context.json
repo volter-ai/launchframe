@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "status": "public_beta_launch",
+  "organization": {
+    "legal_name": "Volter AI, Inc.",
+    "public_name": "Launchframe",
+    "website": "https://launchframe.site/",
+    "support_email": "GitHub Issues: https://github.com/volter-ai/launchframe/issues",
+    "security_email": "GitHub Security Advisories: https://github.com/volter-ai/launchframe/security/advisories",
+    "privacy_email": "GitHub Issues: https://github.com/volter-ai/launchframe/issues",
+    "terms_email": "GitHub Issues: https://github.com/volter-ai/launchframe/issues"
+  },
+  "product": {
+    "public_name": "Launchframe",
+    "one_sentence_description": "Launchframe creates auditable launch workspaces for OSS developer-tool launches.",
+    "launch_objective": "design_partners",
+    "launch_version": "0.1.0-beta.0",
+    "license_spdx": "Apache-2.0",
+    "business_model": "free_oss_plus_startup_pilot_plus_enterprise",
+    "telemetry_default": "none",
+    "hosted_service": false,
+    "accounts_required": false,
+    "payments_enabled": false
+  },
+  "source_of_truth": {
+    "online_repo_url": "https://github.com/volter-ai/launchframe",
+    "package_registry_url": "https://www.npmjs.com/package/@volter-ai/launchframe",
+    "website_url": "https://launchframe.site/"
+  },
+  "surfaces": {
+    "github_org": "volter-ai",
+    "github_repo_target": "volter-ai/launchframe",
+    "package_manager": "npm",
+    "package_name": "@volter-ai/launchframe",
+    "install_command": "npx @volter-ai/launchframe",
+    "domain": "launchframe.site",
+    "hosting_provider": "GitHub Pages"
+  },
+  "launch": {
+    "primary_channel": "Show HN",
+    "link_target": "github_repo",
+    "reddit_in_scope": true,
+    "product_hunt_in_scope": false
+  }
+}
+

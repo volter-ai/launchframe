@@ -1,0 +1,273 @@
+# <Product> — Master Launch Checklist
+
+Status legend: done · ready/in-progress · blocked · launch-day
+
+Use this file as the live launch dashboard, not as the full historical log. Keep detailed credential notes and command evidence in `00-external-prereqs.md`; keep chronology and reversals in `10-worklog.md`.
+
+Primary context files:
+
+- `00-org-context.json` — structured org, product, surface, policy, launch, and verification facts.
+- `00-brand-context.md` — narrative brand, positioning, voice, visual, and channel context.
+- `00-external-prereqs.md` — credentials, sign-ins, publish tokens, registrar keys, and purchase approval gates.
+- `01-business-model-research.md` — sourced comparable products, business models, pricing, BYOK/self-host posture, and monetization implications.
+- `PENDING.md` — running queue for owner questions, sent questions, external waits, operational blockers, and defaulted assumptions.
+
+## 0. Current Launch Dashboard
+
+Update this section continuously. It should answer "can we launch, what is blocking us, and what is intentionally out of scope?" without reading the rest of the repo.
+
+- Mode: tabletop dry run / real dress rehearsal / public launch
+- Overall state: ready / blocked / pending external propagation / launch-day only
+- Link target:
+- Package/install target:
+- Site target:
+- Public posting status: not started / scheduled / posted
+- Next three actions:
+  1.
+  2.
+  3.
+
+### Hard Blockers
+
+Only include blockers that prevent the selected mode from succeeding. Do not list optional surfaces here.
+
+| Blocker | Required for | Owner | Next action | Status |
+|---|---|---|---|---|
+| | | | | |
+
+### Scope Decisions
+
+Every external surface must be marked `required`, `optional`, or `out of scope` before execution starts. Provider-specific paths that are not chosen should be out of scope, not lingering blockers.
+
+| Surface | Scope | Chosen provider/value | Why | Current state |
+|---|---|---|---|---|
+| Repo | required |  |  |  |
+| Package registry | required / optional / out of scope |  |  |  |
+| Website hosting | required / optional / out of scope |  |  |  |
+| Custom domain | required / optional / out of scope |  |  |  |
+| HTTPS | required / optional / pending propagation |  |  |  |
+| Support/security email | required / optional / out of scope |  |  |  |
+| Social/community | required / optional / out of scope |  |  |  |
+| Analytics | required / optional / out of scope |  |  |  |
+
+### Evidence Summary
+
+Summarize only the latest proof. Put full command output and retries in `00-external-prereqs.md` or `10-worklog.md`.
+
+| Gate | Latest evidence | Result | Date |
+|---|---|---|---|
+| Repo |  |  |  |
+| Site |  |  |  |
+| Package install |  |  |  |
+| Domain/DNS |  |  |  |
+| HTTPS |  |  |  |
+| Deployed copy/metadata |  |  |  |
+| Launch copy |  |  |  |
+
+## 1. Intake: Facts To Gather First
+
+Do this before strategy, launch copy, site work, domain purchase, package reservation, or community setup.
+
+- [ ] `00-org-context.json` exists and contains factual org/product/surface/policy fields.
+- [ ] `00-brand-context.md` exists and contains positioning, voice, visual direction, and launch narrative.
+- [ ] `00-external-prereqs.md` exists and records external account/credential readiness.
+- [ ] `PENDING.md` exists and tracks active owner/external/ops/defaulted waits.
+- [ ] Owner has reviewed the context files or unresolved fields are marked as blockers.
+
+### Execution Preflight
+
+Do this before any real external side effect: domain purchase, DNS change, repo publish, package publish, account-console token creation, email setup, or public posting.
+
+- [ ] Current git state reviewed; unrelated dirty files are identified and left untouched.
+- [ ] A checkpoint or commit strategy is selected for this run.
+- [ ] For iterative work, every pass will be committed or checkpointed before the next pass starts.
+- [ ] Required account-console access has been verified through the repo-local signed-browser skill, if browser work is needed.
+- [ ] Required CLI/API credentials are present in ignored local env only.
+- [ ] Publish commands use the intended credential path, not stale global config.
+- [ ] The current mode is explicit: tabletop dry run / real dress rehearsal / public launch.
+- [ ] Side effects approved for this mode are listed in `00-external-prereqs.md`.
+
+### Product Source
+
+- Product name / working codename:
+- One-sentence founder description:
+- Target users:
+- Primary launch objective: mindshare / installs / contributors / design partners / pipeline / other
+- Product repo, local path:
+- Product repo, online URL:
+- Product docs path:
+- Existing README path:
+- Existing demo/screenshots path:
+- Existing package registry URL:
+- Existing website URL:
+- License:
+- Business model: free OSS / open-core / hosted cloud / enterprise self-host / paid SaaS / services / unknown
+- Pricing status: none / published / private-custom / planned / unknown
+- Monetization summary:
+- Default tier strategy: Free OSS / Startup Pilot / Enterprise Custom, unless explicitly changed
+- Startup Pilot price anchor:
+- Startup Pilot CTA:
+- Startup Pilot payment reassurance: "No payment collected until we confirm you're a good fit."
+- Free self-host available: yes / no / unknown / not applicable
+- BYOK supported: yes / no / unknown / not applicable
+- Current public/private state:
+- Launchable version:
+- Owner who can approve final public claims:
+
+### Surfaces And Accounts
+
+- GitHub org/user:
+- GitHub repo target:
+- Package manager target: npm / PyPI / Cargo / Homebrew / Docker / other
+- Package name target:
+- Domain target:
+- Registrar:
+- Hosting provider:
+- Analytics provider:
+- X/Twitter handle:
+- LinkedIn page or founder profile:
+- Discord server:
+- Slack/community links:
+- Newsletter/blog/dev.to/Lobsters/HN account:
+- Support/contact email:
+- Security contact:
+- Account-console browser requirement: signed-in controllable browser / CLI token / manual owner step
+- Browser automation method, if needed: `.claude/skills/browser` named eval-server session with a configured signed-in Chrome profile
+- Account consoles that must not use an isolated fresh browser:
+
+### Policy And Trust Docs
+
+- LICENSE:
+- SECURITY.md:
+- CONTRIBUTING.md:
+- CODE_OF_CONDUCT.md:
+- Privacy policy:
+- Terms of use:
+- Telemetry policy:
+- Data retention / local-first note:
+- Responsible disclosure path:
+- AI/data usage disclosure, if relevant:
+
+### Launch Collateral Inputs
+
+- Core falsifiable demo:
+- Demo product surface: CLI / API / UI / hybrid
+- Demo recording method: VHS / Playwright / browser automation / screen recording / other
+- Install command:
+- Quickstart command:
+- Main failure mode the demo proves:
+- Product limitations to say honestly:
+- Competitors / adjacent tools:
+- Sites/brands that look premium:
+- Existing brand assets:
+- Visual references to avoid:
+- Communities that should not be contacted:
+- Hard launch date or external deadline:
+
+## 2. Decisions
+
+Fill these from `00-org-context.json` and `00-brand-context.md`.
+
+- Product name:
+- License:
+- Repo:
+- Package/install command:
+- Launch objective:
+- Primary audience:
+- Primary launch channel:
+- Link target:
+- Launch date/time:
+
+## 3. Readiness Gates
+
+- [ ] Comparable business-model research is complete and cites primary sources where possible.
+- [ ] Pricing, free tier, self-host, BYOK, hosted, and enterprise claims are sourced or marked unknown.
+- [ ] Public launch copy does not invent monetization, pricing, hosted-service, or free/self-host claims.
+- [ ] Startup Pilot signups are durably preserved before launch, if the paid-intent CTA is live.
+- [ ] Startup Pilot signup notification/follow-up path is verified, if the paid-intent CTA is live.
+- [ ] Startup Pilot capture is low-friction: email required, "how did you hear about us?" optional by default; role and qualification questions happen after capture unless explicitly approved.
+- [ ] One-command install works on a clean machine.
+- [ ] One-command demo proves the central claim.
+- [ ] UI demo is recorded from a reproducible Playwright/browser flow, if a UI is part of the proof.
+- [ ] Public package/repo is scrubbed of private data and secrets.
+- [ ] README explains the product, mechanism, install, and demo in the first screen.
+- [ ] Deployed site copy, links, package/install status, canonical URL, and OG metadata were rechecked after every real external state transition.
+- [ ] License, SECURITY, CONTRIBUTING, and issue templates are present.
+- [ ] Privacy, terms, telemetry, and data-use docs are present or explicitly not applicable.
+- [ ] Discord/community links and conduct/enforcement paths are real if a community is advertised.
+- [ ] CI proves the core claim or failure mode.
+- [ ] Founder/operator is available for 4-6 hours after posting.
+
+## 4. Surfaces
+
+- [ ] Domain checked/purchased/configured.
+- [ ] Package name checked/reserved.
+- [ ] GitHub repo/org target checked.
+- [ ] Social handles checked/reserved.
+- [ ] Discord/community created or deferred.
+- [ ] Support/security contacts configured.
+- [ ] Real dress rehearsal evidence recorded in `00-external-prereqs.md`, not only tabletop targets.
+- [ ] `.claude/skills/browser/SKILL.md` read before browser-required account-console work.
+- [ ] Signed-in account-console access verified before any browser-required token, billing, registrar, hosting, or social work.
+- [ ] MCP and fresh automation browsers are explicitly rejected for account-console work.
+
+## 5. Repo And Policy Templates
+
+Use `templates/repo/` and `templates/policies/`.
+
+- [ ] Exact license text copied from authoritative source.
+- [ ] `SECURITY.md` filled from real contact/process.
+- [ ] `CONTRIBUTING.md` filled from real setup/test commands.
+- [ ] `CODE_OF_CONDUCT.md` filled from official Contributor Covenant source and real enforcement contact.
+- [ ] Issue templates copied and product placeholders filled.
+- [ ] `PRIVACY.md` filled from verified product data behavior.
+- [ ] `TERMS.md` filled from owner-approved commitments.
+- [ ] `TELEMETRY.md` verified against source/network behavior.
+
+## 6. Assets
+
+- [ ] Mood-board references captured.
+- [ ] Brand/site concepts generated with Gemini/Nano Banana, if site work is in scope.
+- [ ] Final selected designs collected.
+- [ ] Site implementation reviewed with Gemini CLI, if site work is in scope.
+- [ ] README demo GIF or short video.
+- [ ] 7-second social cut.
+- [ ] OG/social image.
+- [ ] Screenshots.
+- [ ] Logo/icon/favicon, if needed.
+
+## 7. Channel Artifacts
+
+- [ ] Show HN title.
+- [ ] Founder first comment.
+- [ ] Objection cheat sheet.
+- [ ] X/Twitter thread.
+- [ ] Reddit native posts.
+- [ ] Technical article draft.
+- [ ] Outreach templates.
+
+## 8. Launch Day
+
+1. Publish/flip repo.
+2. Publish package.
+3. Smoke test clean install.
+4. Post Show HN.
+5. Post founder first comment.
+6. Publish social thread.
+7. Monitor HN and GitHub issues.
+8. Post Reddit natively after HN has had time to breathe.
+
+## 9. Post-Launch
+
+- [ ] Publish technical article.
+- [ ] Reply to issues/PRs quickly.
+- [ ] Track metrics.
+- [ ] Write retro.
+
+## 10. Owner Questions
+
+Do not ask piecemeal. Move every workstream forward by applying safe defaults, then batch only the true owner decisions into `OWNER-QUESTIONS.md`.
+
+- [ ] All research/local/source-verification avenues exhausted before owner questions were prepared.
+- [ ] Owner questions include source-backed context, default applied/proposed, and blocked artifact/action if any.
+- [ ] Safe defaults were implemented before asking and are recorded for later owner override.

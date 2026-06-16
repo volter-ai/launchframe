@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0",
+  "status": "draft",
+  "last_updated": "<YYYY-MM-DD>",
+  "owner_approval": {
+    "approver_name": "<name>",
+    "approver_role": "<role>",
+    "approval_required_before_publish": true
+  },
+  "organization": {
+    "legal_name": "<Legal entity or individual owner>",
+    "public_name": "<Public company/project name>",
+    "website": "<https://example.com>",
+    "support_email": "<support@example.com>",
+    "security_email": "<security@example.com>",
+    "privacy_email": "<privacy@example.com>",
+    "terms_email": "<legal@example.com>",
+    "mailing_address": "<optional mailing address or null>",
+    "jurisdiction": "<optional jurisdiction or null>"
+  },
+  "product": {
+    "working_name": "<Product>",
+    "public_name": "<Product>",
+    "one_sentence_description": "<What it is, for whom, and why it matters>",
+    "launch_objective": "<mindshare|installs|contributors|design_partners|pipeline|other>",
+    "launch_scope": "<what is included in this launch>",
+    "launch_version": "<version>",
+    "current_public_state": "<private|public|partially_public>",
+    "license_spdx": "<MIT|Apache-2.0|BSD-3-Clause|...>",
+    "business_model": "<free_oss|oss_plus_startup_pilot_plus_enterprise|open_core|hosted_cloud|enterprise_self_host|paid_saas|services|unknown>",
+    "pricing_status": "<none|published|private/custom|planned|unknown>",
+    "monetization_summary": "<verified summary or TBD>",
+    "default_tiers": {
+      "free_oss": {
+        "enabled": true,
+        "summary": "<OSS core/local use/free self-host if applicable>"
+      },
+      "startup_pilot": {
+        "enabled": true,
+        "price_anchor": "<starting price or TBD>",
+        "summary": "<hosted/concierge/support pilot offer>",
+        "payment_timing": "No payment collected until fit is confirmed."
+      },
+      "enterprise": {
+        "enabled": true,
+        "pricing": "custom",
+        "summary": "<custom security/procurement/deployment/support offer>"
+      }
+    },
+    "free_self_host_available": "<true|false|unknown>",
+    "byok_supported": "<true|false|unknown|not_applicable>",
+    "telemetry_default": "<none|off_by_default|on_by_default|unknown>",
+    "hosted_service": false,
+    "accounts_required": false,
+    "payments_enabled": false,
+    "ai_data_usage": "<none|describe verified behavior>"
+  },
+  "source_of_truth": {
+    "local_repo_path": "<absolute local path>",
+    "online_repo_url": "<https://github.com/org/repo>",
+    "docs_path_or_url": "<path or URL>",
+    "readme_path": "<path>",
+    "demo_path": "<path or URL>",
+    "package_registry_url": "<registry URL or null>",
+    "website_url": "<https://product.example.com or null>",
+    "release_pipeline_path": "<path or null>",
+    "ci_url": "<URL or null>"
+  },
+  "surfaces": {
+    "github_org": "<org or user>",
+    "github_repo_target": "<org/repo>",
+    "package_manager": "<npm|pypi|cargo|homebrew|docker|other>",
+    "package_name": "<package name>",
+    "install_command": "<install command>",
+    "quickstart_command": "<quickstart command>",
+    "domain": "<domain>",
+    "registrar": "<registrar>",
+    "hosting_provider": "<provider>",
+    "analytics_provider": "<provider or none>",
+    "x_handle": "<@handle or null>",
+    "linkedin_url": "<URL or null>",
+    "discord_url": "<URL or null>",
+    "slack_url": "<URL or null>",
+    "hn_account": "<username or null>",
+    "newsletter_or_blog_url": "<URL or null>"
+  },
+  "policy_docs": {
+    "license_path": "<LICENSE>",
+    "security_path": "<SECURITY.md>",
+    "contributing_path": "<CONTRIBUTING.md>",
+    "code_of_conduct_path": "<CODE_OF_CONDUCT.md>",
+    "privacy_path": "<docs/PRIVACY.md or null>",
+    "terms_path": "<docs/TERMS.md or null>",
+    "telemetry_path": "<docs/TELEMETRY.md or null>",
+    "responsible_disclosure_path": "<SECURITY.md or URL>",
+    "data_retention_summary": "<verified summary or TBD>"
+  },
+  "launch": {
+    "primary_channel": "Show HN",
+    "link_target": "<github_repo|landing_page|demo>",
+    "launch_date_time": "<YYYY-MM-DD HH:MM TZ or TBD>",
+    "founder_available_hours": 6,
+    "product_hunt_in_scope": false,
+    "reddit_in_scope": true,
+    "communities_to_avoid": []
+  },
+  "verification": {
+    "core_falsifiable_demo": "<demo claim>",
+    "demo_command": "<command>",
+    "expected_failure": "<what fails>",
+    "expected_pass": "<what passes>",
+    "clean_install_verified": false,
+    "data_scrub_verified": false,
+    "public_claims_verified_by": "<name or TBD>",
+    "last_verified_at": "<YYYY-MM-DD or TBD>"
+  },
+  "notes": {
+    "known_limitations": [],
+    "hard_constraints": [],
+    "open_questions": []
+  }
+}

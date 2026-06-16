@@ -1,0 +1,1473 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Launchframe - Open-source launch cockpit</title>
+  <meta name="description" content="Coordinate Show HN and Reddit launches for open-source projects from one precise release dossier.">
+  <meta property="og:title" content="Launchframe - Open-source launch cockpit">
+  <meta property="og:description" content="Coordinate Show HN and Reddit launches with a single, precise dossier.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://launchframe.site/">
+  <meta property="og:image" content="https://launchframe.site/assets/og-launchframe.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://launchframe.site/assets/og-launchframe.jpg">
+  <link rel="canonical" href="https://launchframe.site/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23f4efe3'/%3E%3Crect x='8' y='8' width='48' height='48' fill='none' stroke='%2315120f' stroke-width='3'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Georgia,serif' font-size='28' font-weight='700' fill='%2315120f'%3ELf%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      --paper: #f4efe3;
+      --paper-deep: #ebe3d4;
+      --ink: #15120f;
+      --muted: #5c5248;
+      --line: rgba(21, 18, 15, 0.56);
+      --line-soft: rgba(21, 18, 15, 0.16);
+      --orange: #dc8757;
+      --orange-dark: #a95833;
+      --panel: rgba(248, 242, 232, 0.72);
+      --shadow: rgba(60, 48, 38, 0.16);
+      --mono: "Courier New", Courier, monospace;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: #eee6d8;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--mono);
+      background:
+        radial-gradient(circle at 16% 6%, rgba(255, 255, 255, .55), transparent 30%),
+        linear-gradient(#eee6d8, #f5efe5 520px, #eee6d8);
+      letter-spacing: 0;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      pointer-events: none;
+      opacity: .12;
+      mix-blend-mode: multiply;
+      background-image:
+        radial-gradient(circle at 13% 23%, rgba(80, 52, 28, .16) 0 1px, transparent 2px),
+        radial-gradient(circle at 72% 8%, rgba(80, 52, 28, .12) 0 1px, transparent 2px),
+        radial-gradient(circle at 88% 39%, rgba(80, 52, 28, .1) 0 1px, transparent 2px);
+      background-size: 220px 190px, 270px 240px, 190px 210px;
+    }
+
+    a { color: inherit; }
+
+    .page {
+      min-height: 100vh;
+      background-color: var(--paper);
+      background-image:
+        radial-gradient(circle at 12% 18%, rgba(86, 56, 35, .08) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 78% 11%, rgba(86, 56, 35, .07) 0 1px, transparent 1.5px),
+        linear-gradient(rgba(30, 26, 21, .06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30, 26, 21, .06) 1px, transparent 1px);
+      background-size: 240px 210px, 280px 240px, 32px 32px, 32px 32px;
+      overflow: hidden;
+    }
+
+    .frame {
+      width: min(100%, 768px);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--line-soft);
+      background:
+        linear-gradient(rgba(244, 239, 227, .88), rgba(244, 239, 227, .88)),
+        linear-gradient(rgba(30, 26, 21, .06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30, 26, 21, .06) 1px, transparent 1px);
+      background-size: auto, 32px 32px, 32px 32px;
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-inner {
+      width: min(100%, 1080px);
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--sans);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .mark {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      background: rgba(251, 247, 238, .72);
+      font-family: var(--serif);
+      font-weight: 800;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+    }
+
+    .nav-cta {
+      min-height: 30px;
+      padding: 0 11px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .section {
+      position: relative;
+      padding: 62px 0;
+    }
+
+    .section + .section {
+      margin-top: 0;
+    }
+
+    .hero {
+      position: relative;
+      width: min(100%, 1240px);
+      min-height: auto;
+      padding-top: 48px;
+      padding-bottom: 34px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 28px;
+    }
+
+    .hero::before {
+      content: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 760px;
+    }
+
+    .eyebrow {
+      margin: 0 0 17px;
+      color: var(--orange-dark);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .hero .eyebrow {
+      display: none;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      margin-bottom: 14px;
+      font-family: var(--serif);
+      font-size: 42px;
+      line-height: 1.03;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin-bottom: 14px;
+      font-family: var(--serif);
+      font-size: 44px;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .copy {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 17px;
+      line-height: 1.45;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .button {
+      min-height: 44px;
+      padding: 0 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--ink);
+      background: rgba(251, 247, 238, .7);
+      text-decoration: none;
+      font-weight: 900;
+      box-shadow: 0 7px 14px rgba(73, 57, 42, .12);
+    }
+
+    .button.primary {
+      background: linear-gradient(#e99a6d, var(--orange));
+    }
+
+    .chips {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 26px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .chips span {
+      padding: 6px 8px;
+      border: 1px solid var(--line-soft);
+      background: rgba(251, 247, 238, .52);
+    }
+
+    .diagram {
+      position: relative;
+      z-index: 1;
+      width: calc(100% + 40px);
+      margin-left: -20px;
+      margin-right: -20px;
+      min-height: 560px;
+      border-top: 0;
+      border-bottom: 0;
+      background: transparent;
+      box-shadow: none;
+      overflow: hidden;
+    }
+
+    .diagram::before {
+      content: none;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(90deg, rgba(21, 18, 15, .42) 0 1px, transparent 1px 44px) top left / 100% 12px no-repeat,
+        repeating-linear-gradient(90deg, rgba(21, 18, 15, .28) 0 1px, transparent 1px 22px) bottom left / 100% 9px no-repeat,
+        repeating-linear-gradient(0deg, rgba(21, 18, 15, .42) 0 1px, transparent 1px 44px) top left / 12px 100% no-repeat,
+        repeating-linear-gradient(0deg, rgba(21, 18, 15, .28) 0 1px, transparent 1px 22px) top right / 9px 100% no-repeat;
+      z-index: 1;
+    }
+
+    .diagram::after {
+      content: none;
+      position: absolute;
+      inset: 12px 8px;
+      border: 1px solid rgba(21, 18, 15, .34);
+      box-shadow:
+        inset 10px 0 0 rgba(244, 239, 227, .16),
+        inset -10px 0 0 rgba(244, 239, 227, .16);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .diagram-canvas {
+      position: relative;
+      width: 760px;
+      max-width: 100%;
+      height: 560px;
+      margin: 0 auto;
+      display: block;
+    }
+
+    .diagram-canvas::before,
+    .solution-board::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(30, 26, 21, .06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30, 26, 21, .06) 1px, transparent 1px);
+      background-size: 24px 24px;
+      pointer-events: none;
+    }
+
+    .window {
+      position: absolute;
+      z-index: 2;
+      border: 2px solid var(--line);
+      border-radius: 5px;
+      background: rgba(246, 240, 229, .94);
+      box-shadow: 8px 9px 0 rgba(54, 45, 36, .12);
+      overflow: hidden;
+    }
+
+    .window-bar {
+      height: 28px;
+      padding: 0 9px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      background: rgba(232, 224, 211, .9);
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .window-body {
+      padding: 12px;
+      font-size: 12px;
+      line-height: 1.22;
+      font-weight: 800;
+    }
+
+    .controls {
+      font-family: var(--sans);
+      font-weight: 500;
+    }
+
+    .traffic {
+      display: inline-flex;
+      gap: 5px;
+      margin-right: 6px;
+    }
+
+    .traffic span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 1px solid rgba(21, 18, 15, .2);
+    }
+
+    .traffic span:nth-child(1) { background: #cf7a56; }
+    .traffic span:nth-child(2) { background: #d6bd7a; }
+    .traffic span:nth-child(3) { background: #89a777; }
+
+    .chart-window { left: 30px; top: 50px; width: 200px; height: 140px; }
+    .repo-window { left: 260px; top: 50px; width: 240px; height: 230px; }
+    .terminal-window { left: 530px; top: 110px; width: 200px; height: 160px; }
+    .strategy-window { left: 30px; top: 330px; width: 200px; height: 180px; }
+    .asset-window { left: 260px; top: 350px; width: 240px; height: 160px; }
+    .launch-window { left: 530px; top: 390px; width: 200px; height: 120px; }
+
+    .connector {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .connector path,
+    .connector polyline,
+    .connector line {
+      fill: none;
+      stroke: rgba(21, 18, 15, .62);
+      stroke-width: 2;
+      stroke-linecap: square;
+      stroke-linejoin: round;
+    }
+
+    .chart-grid {
+      position: relative;
+      height: 78px;
+      border-left: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background-image:
+        linear-gradient(rgba(21, 18, 15, .14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(21, 18, 15, .14) 1px, transparent 1px);
+      background-size: 24px 18px;
+    }
+
+    
+
+    
+    
+
+    .checkline {
+      display: flex;
+      gap: 7px;
+      white-space: nowrap;
+    }
+
+    .checkline::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      margin-top: 1px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(45deg, transparent 45%, var(--ink) 47% 54%, transparent 56%),
+        linear-gradient(-45deg, transparent 52%, var(--ink) 54% 61%, transparent 63%);
+      flex: none;
+    }
+
+    .asset-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .asset-box {
+      height: 54px;
+      border: 1px solid var(--line-soft);
+      background: rgba(235, 226, 212, .72);
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .asset-box.wire::before,
+    .asset-box.wire::after {
+      content: "";
+      position: absolute;
+      inset: 50% 8px auto;
+      height: 1px;
+      background: var(--line-soft);
+      transform: rotate(28deg);
+    }
+
+    .asset-box.wire::after { transform: rotate(-28deg); }
+
+    .play {
+      width: 0;
+      height: 0;
+      border-top: 15px solid transparent;
+      border-bottom: 15px solid transparent;
+      border-left: 21px solid rgba(21, 18, 15, .35);
+    }
+
+    .asset-labels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .asset-status {
+      margin-top: 8px;
+      padding: 4px 8px;
+      background: rgba(226, 218, 204, .8);
+    }
+
+    .calendar {
+      width: 48px;
+      height: 48px;
+      border: 2px solid var(--line);
+      background-image: radial-gradient(circle, var(--ink) 2px, transparent 3px);
+      background-size: 14px 13px;
+      background-position: 8px 19px;
+      position: relative;
+      flex: none;
+    }
+
+    .calendar::before {
+      content: "";
+      position: absolute;
+      inset: 10px 0 auto;
+      height: 2px;
+      background: var(--line);
+    }
+
+    .launch-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .section-head {
+      max-width: 650px;
+      margin-bottom: 40px;
+    }
+
+    .section-head.center {
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+
+    .problem-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .problem-board {
+      position: relative;
+      display: grid;
+      grid-template-columns: .96fr 1.04fr;
+      gap: 0;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 18% 22%, rgba(83, 62, 42, .08) 0 1px, transparent 2px),
+        radial-gradient(circle at 78% 76%, rgba(83, 62, 42, .06) 0 1px, transparent 2px),
+        rgba(251, 247, 238, .58);
+      background-size: 180px 150px, 220px 180px, auto;
+      box-shadow: 12px 14px 0 rgba(73, 57, 42, .09);
+      min-height: 454px;
+    }
+
+    .problem-board::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      pointer-events: none;
+      border: 1px solid rgba(21, 18, 15, .13);
+    }
+
+    .problem-list {
+      display: grid;
+      gap: 30px;
+      padding: 48px 34px;
+      align-content: center;
+      border-right: 1px solid var(--line);
+    }
+
+    .panel-title {
+      margin: 0 0 6px;
+      font-size: 19px;
+      line-height: 1.15;
+      font-weight: 900;
+    }
+
+    .solution-title {
+      position: absolute;
+      top: 34px;
+      left: 38px;
+      z-index: 3;
+    }
+
+    .problem-card {
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 22px;
+      align-items: center;
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+
+    .problem-card h3 {
+      margin: 0 0 6px;
+      font-size: 17px;
+      line-height: 1.15;
+    }
+
+    .problem-card p {
+      margin: 0;
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: 14.5px;
+      line-height: 1.42;
+    }
+
+    .icon svg,
+    .surface-icon svg,
+    .step-icon svg {
+      width: 58px;
+      height: 58px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.35;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .solution-board {
+      position: relative;
+      background: transparent;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .solution-map {
+      position: absolute;
+      inset: 4px 12px;
+    }
+
+    .db {
+      position: absolute;
+      left: 24px;
+      top: 146px;
+      width: 82px;
+      height: 92px;
+      border: 2px solid var(--line);
+      border-radius: 50% / 14%;
+      background:
+        linear-gradient(transparent 28px, var(--line-soft) 29px 30px, transparent 31px),
+        linear-gradient(transparent 60px, var(--line-soft) 61px 62px, transparent 63px),
+        rgba(248, 242, 232, .9);
+      box-shadow: 5px 5px 0 rgba(48, 38, 30, .08);
+      z-index: 2;
+    }
+
+    .db::after {
+      content: "Dossier";
+      position: absolute;
+      left: 12px;
+      bottom: -27px;
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    .map-doc,
+    .platform {
+      position: absolute;
+      z-index: 3;
+      border: 2px solid var(--line);
+      background: rgba(248, 242, 232, .95);
+      box-shadow: 5px 5px 0 rgba(48, 38, 30, .08);
+    }
+
+    .map-doc {
+      left: 228px;
+      width: 36px;
+      height: 46px;
+    }
+
+    .map-doc.top { top: 70px; }
+    .map-doc.bottom { top: 255px; }
+
+    .map-doc::before {
+      content: "";
+      position: absolute;
+      inset: 10px 6px auto;
+      height: 2px;
+      background: var(--line-soft);
+      box-shadow: 0 8px 0 var(--line-soft), 0 16px 0 var(--line-soft);
+    }
+
+    .platform {
+      right: 22px;
+      width: 66px;
+      height: 74px;
+      display: grid;
+      place-items: center;
+      font-family: var(--serif);
+      font-size: 31px;
+      box-shadow: 7px 6px 0 rgba(48, 38, 30, .1);
+    }
+
+    .platform.hn { top: 58px; }
+    .platform.reddit {
+      top: 238px;
+      font-family: var(--mono);
+      font-size: 24px;
+    }
+
+    .map-label {
+      position: absolute;
+      z-index: 4;
+      font-size: 11px;
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .label-top { left: 202px; top: 36px; }
+    .label-bottom { left: 178px; top: 316px; }
+    .label-mid { left: 204px; top: 166px; width: 130px; }
+    .label-hn { right: 30px; top: 136px; }
+    .label-reddit { right: 18px; top: 320px; width: 80px; }
+
+    .map-lines {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow: visible;
+    }
+
+    .map-lines path {
+      fill: none;
+      stroke: var(--line);
+      stroke-width: 2.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .surface-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .surface-card {
+      position: relative;
+      min-height: 326px;
+      padding: 22px 9px 17px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(rgba(251, 247, 238, .74), rgba(251, 247, 238, .74)),
+        radial-gradient(circle at 18% 22%, rgba(69, 52, 38, .12) 0 1px, transparent 2px);
+      background-size: auto, 92px 86px;
+      box-shadow: 5px 7px 0 rgba(54, 45, 36, .11);
+      text-align: center;
+    }
+
+    .surface-card::before {
+      content: "";
+      position: absolute;
+      inset: 7px;
+      border: 1px solid rgba(21, 18, 15, .12);
+      pointer-events: none;
+    }
+
+    .surface-card h3 {
+      margin: 0 0 12px;
+      font-size: 17px;
+      line-height: 1.1;
+    }
+
+    .surface-icon {
+      width: 78px;
+      height: 78px;
+      margin: 0 auto 14px;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--line);
+      background: var(--paper-deep);
+      font-family: var(--serif);
+      font-size: 30px;
+      font-weight: 900;
+    }
+
+    .surface-tag {
+      display: block;
+      margin-top: auto;
+      padding: 4px 0;
+      border-top: 2px solid var(--line);
+      border-bottom: 1px solid var(--line-soft);
+      font-size: 9.5px;
+      font-weight: 900;
+    }
+
+    .surface-card p {
+      min-height: 64px;
+      margin: 12px 0 0;
+      color: var(--ink);
+      font-size: 12.5px;
+      line-height: 1.3;
+      font-weight: 900;
+    }
+
+    .workflow-shell {
+      padding: 30px 0 46px;
+      border-top: 1px solid var(--line-soft);
+      border-bottom: 1px solid var(--line-soft);
+      background: rgba(251, 247, 238, .34);
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      position: relative;
+      margin-top: 26px;
+    }
+
+    .workflow::before {
+      content: "";
+      position: absolute;
+      left: 9%;
+      right: 9%;
+      top: 150px;
+      height: 3px;
+      background: var(--line);
+    }
+
+    .step {
+      position: relative;
+      min-height: 230px;
+      text-align: center;
+    }
+
+    .step h3 {
+      margin: 0 0 14px;
+      font-size: 17px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+
+    .step-icon {
+      height: 86px;
+      display: grid;
+      place-items: center;
+    }
+
+    .step-icon svg {
+      width: 74px;
+      height: 74px;
+    }
+
+    .node {
+      position: absolute;
+      left: 50%;
+      top: 133px;
+      width: 40px;
+      height: 40px;
+      transform: translateX(-50%);
+      border: 3px solid var(--line);
+      border-radius: 50%;
+      background: var(--paper);
+      z-index: 2;
+    }
+
+    .proof-grid {
+      display: grid;
+      grid-template-columns: .78fr 1.22fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .proof-list {
+      display: grid;
+      gap: 11px;
+      margin-top: 8px;
+    }
+
+    .proof-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 12px 14px;
+      border: 1px solid var(--line-soft);
+      background: rgba(251, 247, 238, .54);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .status {
+      color: #58745b;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .cta-wrap {
+      padding: 62px 0 44px;
+    }
+
+    .cta-box {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 32px;
+      padding: 54px 0 44px;
+      background: transparent;
+      box-shadow: none;
+      border: none;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .stamp {
+      position: absolute;
+      left: -28px;
+      top: 30px;
+      width: 124px;
+      height: 124px;
+      transform: rotate(-14deg);
+      color: var(--orange-dark);
+      pointer-events: none;
+    }
+
+    .cta-box h2 {
+      margin-bottom: 16px;
+      font-size: 68px;
+    }
+
+    .cta-actions {
+      display: grid;
+      grid-template-columns: 310px 330px;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .link-stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .install-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0;
+      height: 38px;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+      font-size: 20px;
+      font-weight: 900;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .footer {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 42px;
+      align-items: start;
+      width: min(100%, 1080px);
+      padding: 44px 20px 48px;
+      border-top: 1px solid var(--line-soft);
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .footer::after {
+      content: "Launchframe / open-source launch cockpit";
+      grid-column: 1 / -1;
+      margin-top: 26px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line-soft);
+      color: rgba(92, 82, 72, .78);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .footer-group {
+      display: grid;
+      gap: 10px;
+    }
+
+    .footer-heading {
+      color: var(--ink);
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .footer-links-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    @media (min-width: 1000px) {
+      #problem,
+      #surfaces,
+      #start,
+      #workflow .workflow,
+      .footer {
+        width: min(100%, 860px);
+      }
+
+      .hero .hero-content {
+        max-width: 1100px;
+      }
+
+      .hero h1 {
+        font-size: 54px;
+      }
+
+      .hero .diagram {
+        width: min(100vw, 1180px);
+        min-height: 760px;
+        margin-left: 0;
+        margin-right: 0;
+        background-size: contain;
+        background-position: center;
+      }
+
+      .hero .diagram::before,
+      .hero .diagram::after {
+        display: none;
+      }
+
+      .hero .diagram-canvas {
+        display: block;
+        transform: scale(1.3);
+        transform-origin: center top;
+        margin-top: 30px;
+      }
+
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .footer a {
+      text-decoration: none;
+    }
+
+    @media (max-width: 760px) {
+      .proof-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .problem-board {
+        grid-template-columns: 1fr;
+      }
+      
+      .problem-list {
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .hero {
+        padding-top: 56px;
+      }
+
+      .diagram {
+        min-height: 500px;
+      }
+
+      .surface-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 680px) {
+      .frame {
+        width: 100%;
+        padding: 0 16px;
+      }
+
+      .nav-links a:not(.nav-cta) {
+        display: none;
+      }
+
+      .nav-inner {
+        min-height: 52px;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 34px;
+        padding-bottom: 18px;
+        gap: 20px;
+      }
+
+      .hero::before {
+        inset: 14px 22px 0;
+      }
+
+      h1 {
+        font-size: 34px;
+        overflow-wrap: normal;
+      }
+
+      h2 {
+        font-size: 30px;
+        line-height: 1.08;
+        overflow-wrap: anywhere;
+      }
+
+      .copy {
+        font-size: 16px;
+      }
+
+      .hero .copy {
+        max-width: 31ch;
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .diagram {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        height: 264px;
+        min-height: 0;
+        background:
+          linear-gradient(rgba(244, 239, 227, .68), rgba(244, 239, 227, .68)),
+          linear-gradient(rgba(30, 26, 21, .06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(30, 26, 21, .06) 1px, transparent 1px);
+        background-size: auto, 24px 24px, 24px 24px;
+      }
+
+      #problem h2 {
+        max-width: 12ch;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .section-head {
+        max-width: 100%;
+      }
+
+      .section-head.center {
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+
+      .section-head .copy {
+        max-width: 34ch;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 14px;
+        line-height: 1.45;
+        overflow-wrap: anywhere;
+      }
+
+      .diagram-canvas {
+        position: absolute;
+        inset: 0 auto auto 0;
+        display: block;
+        max-width: none;
+        margin: 0;
+        transform: scale(.47);
+        transform-origin: top left;
+      }
+
+      .solution-board {
+        display: grid;
+        gap: 10px;
+        padding-top: 22px;
+      }
+
+      .solution-title {
+        position: relative;
+        top: auto;
+        left: auto;
+        padding: 0 28px;
+      }
+
+      .cta-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-box {
+        max-width: 100%;
+        padding-top: 92px;
+      }
+
+      .cta-box h2 {
+        font-size: 36px;
+      }
+
+      .stamp {
+        left: 50%;
+        top: 0;
+        width: 92px;
+        height: 92px;
+        transform: translateX(-50%) rotate(-14deg);
+      }
+
+      .install-line {
+        justify-content: center;
+        font-size: 14px;
+      }
+
+      .section {
+        padding: 56px 0;
+      }
+
+      .surface-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .workflow {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .workflow::before,
+      .node {
+        display: none;
+      }
+
+      .step {
+        min-height: auto;
+        padding-bottom: 14px;
+        border-bottom: 1px solid var(--line-soft);
+      }
+
+      .stamp {
+        left: 24px;
+        width: 100px;
+        height: 100px;
+      }
+
+      .footer {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="nav" role="banner">
+      <div class="frame nav-inner">
+        <a class="brand" href="#top" aria-label="Launchframe home">
+          <span class="mark">Lf</span>
+          <span>Launchframe</span>
+        </a>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="#problem">Problem</a>
+          <a href="#surfaces">Surfaces</a>
+          <a href="#workflow">Workflow</a>
+          <a class="nav-cta" href="https://github.com/volter-ai/launchframe">View Repo</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="frame section hero" aria-labelledby="hero-title">
+        <div class="hero-content">
+          <p class="eyebrow">OSS launch control</p>
+          <h1 id="hero-title">Your open-source launch cockpit.</h1>
+          <p class="copy">Coordinate Show HN &amp; Reddit releases with a single, precise dossier.</p>
+          <div class="actions">
+            <a class="button primary" href="https://github.com/volter-ai/launchframe">View on GitHub</a>
+          </div>
+        </div>
+
+        <div class="diagram" aria-label="Launchframe dossier schematic">
+                    <div class="diagram-canvas">
+            <svg class="connectors" width="760" height="560" style="position:absolute; left:0; top:0; z-index:1; pointer-events:none;">
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                  <path d="M 0 1 L 8 5 L 0 9 z" fill="rgba(21, 18, 15, .62)" />
+                </marker>
+                <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4">
+                  <circle cx="5" cy="5" r="4" fill="rgba(21, 18, 15, .62)" />
+                </marker>
+              </defs>
+              <g fill="none" stroke="rgba(21, 18, 15, .62)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)">
+                <!-- Strategy to Chart -->
+                <path d="M 130 330 L 130 200" marker-start="url(#dot)" />
+                <!-- Strategy to Repo -->
+                <path d="M 230 360 L 245 360 L 245 260 L 250 260" marker-start="url(#dot)" />
+                <!-- Strategy to Asset -->
+                <path d="M 230 430 L 250 430" marker-start="url(#dot)" />
+                <!-- Repo to Asset -->
+                <path d="M 320 280 L 320 340" marker-start="url(#dot)" />
+                <!-- Repo to Status -->
+                <path d="M 445 280 L 445 285" marker-start="url(#dot)" marker-end="none" />
+                <!-- Asset to Terminal -->
+                <path d="M 500 430 L 515 430 L 515 240 L 520 240" marker-start="url(#dot)" />
+                <!-- Terminal to Launch -->
+                <path d="M 630 270 L 630 380" marker-start="url(#dot)" />
+              </g>
+            </svg>
+
+            <article class="window chart-window">
+              <div class="window-bar">Upvote trajectories</div>
+              <div class="window-body">
+                <div class="chart-grid" style="position:relative; height: 86px;">
+                  <svg width="100%" height="100%" viewBox="0 0 200 80" preserveAspectRatio="none" style="position:absolute; inset:0;">
+                    <path d="M 0 70 Q 40 70, 80 40 T 160 20 T 200 10" fill="none" stroke="var(--orange-dark)" stroke-width="3" stroke-linecap="round" />
+                    <path d="M 0 75 Q 60 75, 100 50 T 200 30" fill="none" stroke="var(--ink)" stroke-width="2" stroke-opacity="0.5" stroke-dasharray="4 4" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </div>
+            </article>
+            <article class="window repo-window">
+              <div class="window-bar"><span><span class="traffic"><span></span><span></span><span></span></span>REPO READINESS</span><span class="controls">- □ ×</span></div>
+              <div class="window-body"><pre style="margin: 0; font-family: inherit; font-size: 11.5px; white-space: pre-wrap;">// launch.config.ts
+export default {
+  name: "Launchframe",
+  version: "0.1.0-beta.0",
+  checks: {
+    npm: "published",
+    domain: "pages-live",
+  },
+};</pre></div>
+            </article>
+            <article class="window terminal-window">
+              <div class="window-bar">EXECUTION FLOW <span class="controls">- □ ×</span></div>
+              <div class="window-body">&gt; launchframe deploy --show-hn
+drafting Show HN post...
+post drafted. ID: sh_12345
+&gt; █</div>
+            </article>
+            <article class="window strategy-window">
+              <div class="window-bar">RESEARCH &amp; STRATEGY <span class="controls">- □ ×</span></div>
+              <div class="window-body">
+                <div class="checkline">Show HN analysis: complete</div>
+                <div class="checkline">Reddit map: complete</div>
+                <div class="checkline">Title candidates: complete</div>
+                <div class="checkline">Asset list: complete</div>
+                <div class="checkline">Timing window: complete</div>
+              </div>
+            </article>
+            <article class="window asset-window">
+              <div class="window-bar">ASSETS &amp; DEMO <span class="controls">- □ ×</span></div>
+              <div class="window-body">
+                <div class="asset-grid"><div class="asset-box wire"></div><div class="asset-box"><span class="play"></span></div></div>
+                <div class="asset-labels"><span>Screen_01.png</span><span>Demo.mp4</span></div>
+                <div class="asset-status">assets: ready</div>
+              </div>
+            </article>
+            
+            <div class="status-box" style="position:absolute; left:380px; top: 290px; width: 130px; border:1px solid var(--line); background:rgba(244,239,227,.9); padding:6px 10px; font-size:10px; font-family:var(--mono); font-weight:800; line-height:1.4; z-index:2; border-radius:4px; box-shadow: 3px 3px 0 rgba(48,38,30,.06);">pages: live<br>npm: published<br>show_hn: drafted</div>
+
+            <article class="window launch-window">
+              <div class="window-bar">LAUNCH DAY</div>
+              <div class="window-body launch-row"><div class="calendar"></div><div>Date: Oct 26<br>Status: go</div></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="frame section" id="problem">
+        <div class="problem-layout">
+          <div class="section-head center">
+            <p class="eyebrow">Problem / solution</p>
+            <h2>The Multi-Platform Chaos, Solved.</h2>
+            <p class="copy">Streamline your presence across Hacker News and Reddit from one precise command center.</p>
+          </div>
+
+          <div class="problem-board">
+            <div class="problem-list">
+              <h3 class="panel-title">Current Problem:<br>Fragmentation</h3>
+              <article class="problem-card"><div class="icon"><svg viewBox="0 0 48 48"><path d="M10 13h20v24H10z"></path><path d="M16 9h20v24H16z"></path><path d="M22 17h17v22H22z"></path><path d="M26 24h9M26 30h9"></path></svg></div><div><p>Decentralized content and assets across platforms.</p></div></article>
+              <article class="problem-card"><div class="icon"><svg viewBox="0 0 48 48"><circle cx="17" cy="24" r="10"></circle><circle cx="30" cy="24" r="10"></circle><path d="M17 18v7l5 3M30 18v7l-4 3"></path></svg></div><div><h3>Unsynchronized launch timing</h3><p>Timing leads to diluted impact.</p></div></article>
+              <article class="problem-card"><div class="icon"><svg viewBox="0 0 48 48"><path d="M12 15l20-4 4 18-20 4z"></path><path d="M18 23l20-4 4 18-20 4z"></path><path d="M16 31h12M22 18h8M24 27h10"></path></svg></div><div><h3>No source of truth</h3><p>Hard to track which version is the source of truth.</p></div></article>
+            </div>
+
+            <div class="solution-board">
+              <h3 class="panel-title solution-title">Our Solution:<br>Centralized Orchestration</h3>
+              <svg viewBox="0 0 540 420" style="width: 100%; height: auto; display: block;" aria-hidden="true">
+                <foreignObject x="0" y="0" width="540" height="420">
+                  <div xmlns="http://www.w3.org/1999/xhtml" style="width: 100%; height: 100%; position: relative;">
+                    <div class="solution-map">
+                      <svg class="map-lines" viewBox="0 0 480 360"><path d="M92 194 C156 194 146 94 228 94"></path><path d="M92 194 C156 194 146 278 228 278"></path><path d="M264 94 L392 94"></path><path d="M264 278 L392 278"></path><path d="M360 94 L360 278" stroke-dasharray="5 6"></path></svg>
+                      <div class="db"></div>
+                      <div class="map-doc top"></div>
+                      <div class="map-doc bottom"></div>
+                      <div class="platform hn">HN</div>
+                      <div class="platform reddit">◎</div>
+                      <span class="map-label label-top">show_hn.dossier</span>
+                      <span class="map-label label-bottom">reddit_post.dossier</span>
+                      <span class="map-label label-mid">Validated<br>configuration time</span>
+                      <span class="map-label label-hn">HN</span>
+                      <span class="map-label label-reddit">Reddit<br>platform</span>
+                    </div>
+                  </div>
+                </foreignObject>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="frame section" id="surfaces">
+        <div class="section-head center">
+          <p class="eyebrow">Integration surfaces</p>
+          <h2>INTEGRATION SURFACES</h2>
+          <p class="copy">Connect and control every aspect of your launch.</p>
+        </div>
+        <div class="surface-grid">
+          <article class="surface-card"><h3>GitHub</h3><div class="surface-icon"><img src="assets/logos/github.svg" alt="GitHub" style="width:34px;height:34px;opacity:0.85;"></div><span class="surface-tag">REPO READINESS</span><p>Codebase<br>Status: Live<br><u>See Details</u></p></article>
+          <article class="surface-card"><h3>npm</h3><div class="surface-icon"><img src="assets/logos/npm.svg" alt="npm" style="width:34px;height:34px;opacity:0.85;"></div><span class="surface-tag">NPM PUBLISH</span><p>Package<br>Published<br><u>See Details</u></p></article>
+          <article class="surface-card"><h3>Domain</h3><div class="surface-icon"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="14"></circle><path d="M10 24h28M24 10c5 4 7 9 7 14s-2 10-7 14M24 10c-5 4-7 9-7 14s2 10 7 14"></path></svg></div><span class="surface-tag">DOMAIN STATUS</span><p>GitHub Pages<br>Live<br><u>See Details</u></p></article>
+          <article class="surface-card"><h3>HN</h3><div class="surface-icon"><img src="assets/logos/hn.svg" alt="Hacker News" style="width:34px;height:34px;opacity:0.85;"></div><span class="surface-tag">HN POST</span><p>Show HN<br>drafted<br><u>See Details</u></p></article>
+          <article class="surface-card"><h3>Reddit</h3><div class="surface-icon"><img src="assets/logos/reddit.svg" alt="Reddit" style="width:34px;height:34px;opacity:0.85;"></div><span class="surface-tag">REDDIT SUB</span><p>Subreddit<br>drafted<br><u>See Details</u></p></article>
+          <article class="surface-card"><h3>Demo</h3><div class="surface-icon"><svg viewBox="0 0 48 48"><rect x="10" y="12" width="28" height="20" rx="2"></rect><path d="M20 18l9 4-9 4z"></path><path d="M18 38h12M24 32v6"></path></svg></div><span class="surface-tag">DEMO ASSET</span><p>Assets<br>ready<br><u>See Details</u></p></article>
+        </div>
+      </section>
+
+      <section class="section" id="workflow">
+        <div class="frame section-head center">
+          <p class="eyebrow">Launch workflow</p>
+          <h2>A PRECISE &amp; OPTIMIZED SEQUENCE</h2>
+        </div>
+        <div class="workflow-shell">
+          <div class="frame workflow">
+            <article class="step"><h3>Research</h3><div class="step-icon"><svg viewBox="0 0 48 48"><circle cx="21" cy="21" r="10"></circle><path d="M29 29l9 9"></path></svg></div><span class="node"></span></article>
+            <article class="step"><h3>Assets</h3><div class="step-icon"><svg viewBox="0 0 48 48"><path d="M14 10h16l6 6v22H14z"></path><path d="M30 10v7h7M17 28h12M17 34h16"></path></svg></div><span class="node"></span></article>
+            <article class="step"><h3>Readiness</h3><div class="step-icon"><svg viewBox="0 0 48 48"><path d="M16 10h16v5h5v25H11V15h5z"></path><path d="M18 27l4 4 8-10"></path></svg></div><span class="node"></span></article>
+            <article class="step"><h3>Launch</h3><div class="step-icon"><svg viewBox="0 0 48 48"><path d="M24 7c7 6 9 14 5 25l-5 8-5-8c-4-11-2-19 5-25z"></path><circle cx="24" cy="19" r="3"></circle><path d="M19 31l-7 6 4-11M29 31l7 6-4-11"></path></svg></div><span class="node"></span></article>
+            <article class="step"><h3>Retro</h3><div class="step-icon"><svg viewBox="0 0 48 48"><path d="M15 31h18a8 8 0 0 0 0-16 10 10 0 0 0-19-2 7 7 0 0 0 1 18z"></path><path d="M20 36l-5-5 5-5M28 26l5 5-5 5"></path></svg></div><span class="node"></span></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="frame cta-wrap" id="start">
+        <div class="cta-box">
+          <svg class="stamp" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="44" fill="none" stroke="currentColor" stroke-width="3"></circle><circle cx="60" cy="60" r="34" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 5"></circle><rect x="16" y="47" width="88" height="25" fill="rgba(244,239,227,.72)" stroke="currentColor" stroke-width="3"></rect><text x="60" y="64" text-anchor="middle" fill="currentColor" font-family="Courier New, monospace" font-size="10" font-weight="800">LAUNCH-READY</text></svg>
+          <div>
+            <h2>It's all systems go.</h2>
+            <p class="copy">Your release dossier is assembled, published, and ready for final HTTPS verification. Take command.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="button primary" href="https://github.com/volter-ai/launchframe">Take Control</a>
+            <div class="link-stack">
+              <a class="install-line" href="https://www.npmjs.com/package/@volter-ai/launchframe"><span>[>_] npm package</span><span>published</span></a>
+              <a class="install-line" href="https://github.com/volter-ai/launchframe"><span>(gh) View on GitHub</span><span></span></a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="frame footer" role="contentinfo">
+      <section class="footer-group" aria-labelledby="footer-resources">
+        <h2 class="footer-heading" id="footer-resources">Resources</h2>
+        <ul class="footer-links-list">
+          <li><a href="https://github.com/volter-ai/launchframe">Documentation</a></li>
+          <li><a href="https://github.com/volter-ai/launchframe/blob/main/repo/SECURITY.md">Security</a></li>
+        </ul>
+      </section>
+      <section class="footer-group" aria-labelledby="footer-community">
+        <h2 class="footer-heading" id="footer-community">Community</h2>
+        <ul class="footer-links-list">
+          <li><a href="https://github.com/volter-ai/launchframe/blob/main/repo/CONTRIBUTING.md">Contribute</a></li>
+          <li><a href="https://github.com/volter-ai/launchframe/issues">Issue Tracker</a></li>
+        </ul>
+      </section>
+      <section class="footer-group" aria-labelledby="footer-project">
+        <h2 class="footer-heading" id="footer-project">Project</h2>
+        <ul class="footer-links-list">
+          <li><a href="https://github.com/volter-ai/launchframe/commits/main/">Changelog</a></li>
+          <li><a href="https://github.com/volter-ai/launchframe/blob/main/repo/LICENSE.SELECTOR.md">License</a></li>
+        </ul>
+      </section>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+name: Feature request
+description: Suggest an improvement for <Product>
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user problem would this solve?
+      placeholder: "<describe the workflow or pain>"
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      placeholder: "<describe the change>"
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      placeholder: "<other ways to solve it>"
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      placeholder: "<links, examples, screenshots, related issues>"
+

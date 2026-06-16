@@ -1,0 +1,60 @@
+name: Bug report
+description: Report a reproducible problem in <Product>
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Please include enough detail for someone else to reproduce it.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened?
+      placeholder: "<short description>"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Use a minimal example if possible.
+      placeholder: |
+        1. Run `<command>`
+        2. Open `<file>`
+        3. See `<result>`
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: "<what should have happened>"
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      placeholder: "<what happened instead>"
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: "<Product> version / commit SHA"
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: "OS, runtime version, package manager, shell, relevant config"
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      render: shell
+

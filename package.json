@@ -1,0 +1,36 @@
+{
+  "name": "@volter-ai/launchframe",
+  "version": "0.1.0-beta.0",
+  "description": "OSS launch-control workspaces for developer-tool launches.",
+  "type": "module",
+  "bin": {
+    "launchframe": "./bin/launchframe.js"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "templates/",
+    "docs/",
+    "examples/launchframe/README.md",
+    "examples/launchframe/launch-context/",
+    "examples/launchframe/repo/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "check": "node bin/launchframe.js validate templates --template",
+    "smoke": "node bin/launchframe.js init /tmp/launchframe-smoke --force && node bin/launchframe.js validate /tmp/launchframe-smoke"
+  },
+  "keywords": [
+    "launch",
+    "oss",
+    "devtools",
+    "hacker-news",
+    "reddit",
+    "release-engineering"
+  ],
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20"
+  }
+}
