@@ -17,6 +17,7 @@ const requiredWorkspaceFiles = [
   '10-worklog.md',
   '11-adversarial-review.md',
   '12-owner-approval-gate.md',
+  'SURFACE-PROFILES.md',
   'OWNER-QUESTIONS.md',
   'PENDING.md',
   'repo/README.md',

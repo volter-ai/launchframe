@@ -4,7 +4,7 @@ Use this sequence when launching an OSS developer tool with HN as the primary ch
 
 ## 1. Intake
 
-Fill `00-owner-authorization.md`, `00-org-context.json`, and `00-brand-context.md` before writing launch copy or buying surfaces. The workspace must know the legal operator, product name, launch type, selected distribution surfaces, repo target, website target, support/security paths, launch objective, allowed side effects, credential paths, and claims that are already true.
+Fill `00-owner-authorization.md`, `00-org-context.json`, `00-brand-context.md`, and `SURFACE-PROFILES.md` before writing launch copy or buying surfaces. The workspace must know the legal operator, product name, launch type, selected distribution surfaces, repo target, website target, support/security paths, launch objective, allowed side effects, credential paths, and claims that are already true.
 
 The intended autonomy model is:
 
@@ -43,6 +43,8 @@ Record every external action in `00-external-prereqs.md`.
 The README and launch copy must lead with a falsifiable demo. For a CLI, this usually means a command that succeeds or fails in a way that proves the central claim.
 
 Do not launch until every required distribution surface has a clean verification path recorded in its `surfaces/` module.
+
+If an optional surface is advertised in README, site copy, launch copy, or social copy, promote it to required and complete its module, or remove the claim.
 
 ## 5. Repo Quality
 

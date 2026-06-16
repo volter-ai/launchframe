@@ -9,6 +9,7 @@ Primary context files:
 - `00-owner-authorization.md` — upfront human authority, allowed side effects, credential paths, claim boundaries, and selected distribution surfaces.
 - `00-org-context.json` — structured org, product, surface, policy, launch, and verification facts.
 - `00-brand-context.md` — narrative brand, positioning, voice, visual, and channel context.
+- `SURFACE-PROFILES.md` — routing guide for selecting distribution and trust modules by product shape.
 - `00-external-prereqs.md` — credentials, sign-ins, publish tokens, registrar keys, and purchase approval gates.
 - `01-business-model-research.md` — sourced comparable products, business models, pricing, BYOK/self-host posture, and monetization implications.
 - `11-adversarial-review.md` — skeptical repo, product, claim, install, trust, and launch-channel review before public posting.
@@ -76,10 +77,12 @@ Do this before strategy, launch copy, site work, domain purchase, package reserv
 - [ ] `00-owner-authorization.md` exists and defines allowed side effects, credential paths, claim boundaries, and selected surfaces.
 - [ ] `00-org-context.json` exists and contains factual org/product/surface/policy fields.
 - [ ] `00-brand-context.md` exists and contains positioning, voice, visual direction, and launch narrative.
+- [ ] `SURFACE-PROFILES.md` was used to choose selected distribution and trust/privacy modules.
 - [ ] `00-external-prereqs.md` exists and records external account/credential readiness.
 - [ ] `PENDING.md` exists and tracks active owner/external/ops/defaulted waits.
 - [ ] Owner has reviewed the context files or unresolved fields are marked as blockers.
 - [ ] `distribution_surfaces[]` is filled in `00-org-context.json`; each selected surface has a matching `surfaces/` module.
+- [ ] Any advertised optional surface was promoted to required or removed from public copy.
 
 ### Execution Preflight
 
