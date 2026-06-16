@@ -3,9 +3,9 @@
 Launchframe creates auditable launch workspaces for OSS developer-tool launches.
 
 ```sh
-npx @volter-ai/launchframe init my-launch
+npx launchframe-cli init my-launch
 cd my-launch
-npx @volter-ai/launchframe validate .
+npx launchframe-cli validate .
 ```
 
 ## What You Get
@@ -20,4 +20,3 @@ npx @volter-ai/launchframe validate .
 ## Dogfood Example
 
 This repository includes `examples/launchframe/`, the Launchframe launch created with Launchframe itself.
-

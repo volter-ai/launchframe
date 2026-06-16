@@ -3,9 +3,9 @@
 Launchframe creates auditable launch workspaces for OSS developer-tool launches.
 
 ```sh
-npx @volter-ai/launchframe init my-launch
+npx launchframe-cli init my-launch
 cd my-launch
-npx @volter-ai/launchframe validate .
+npx launchframe-cli validate .
 ```
 
 It is a template and validation system for launches that need more than a checklist in someone else's chat history. A Launchframe workspace keeps product facts, brand facts, repo readiness, policy/trust docs, HN/Reddit copy, launch-day runbooks, visual workflow evidence, pending blockers, and proof artifacts together.
@@ -51,4 +51,3 @@ The root of this repo is the reusable OSS product. `examples/launchframe/` is th
 ## Status
 
 `0.1.0-beta.0` is the first public-beta scaffold. The included dogfood example shows Launchframe being used to launch Launchframe.
-

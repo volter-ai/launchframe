@@ -24,15 +24,15 @@
   },
   "source_of_truth": {
     "online_repo_url": "https://github.com/volter-ai/launchframe",
-    "package_registry_url": "https://www.npmjs.com/package/@volter-ai/launchframe",
+    "package_registry_url": "https://www.npmjs.com/package/launchframe-cli",
     "website_url": "https://launchframe.site/"
   },
   "surfaces": {
     "github_org": "volter-ai",
     "github_repo_target": "volter-ai/launchframe",
     "package_manager": "npm",
-    "package_name": "@volter-ai/launchframe",
-    "install_command": "npx @volter-ai/launchframe",
+    "package_name": "launchframe-cli",
+    "install_command": "npx launchframe-cli",
     "domain": "launchframe.site",
     "hosting_provider": "GitHub Pages"
   },
@@ -43,4 +43,3 @@
     "product_hunt_in_scope": false
   }
 }
-
