@@ -1,5 +1,15 @@
 # <Product> — Repo Readiness
 
+If the repo is the launch link target or a major trust surface, this file should be backed by `playbook/oss-repo-quality-workflow.md`, not filled from vibes.
+
+OSS repo quality artifacts:
+
+- Baseline captures:
+- Comparable repo matrix:
+- Target repo spec:
+- Final parity review:
+- Public-only deferred signals:
+
 ## Install
 
 Command:

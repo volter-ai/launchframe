@@ -217,6 +217,7 @@ Fill these from `00-org-context.json` and `00-brand-context.md`.
 
 Use `templates/repo/` and `templates/policies/`.
 
+- [ ] OSS repo quality workflow completed if the repo is the launch target or major trust surface: baseline captured, comparable repos sampled, section/badge/trust matrix written, target repo spec written, implementation passes completed, real repo quality review passed, public-only signals deferred.
 - [ ] Exact license text copied from authoritative source.
 - [ ] `SECURITY.md` filled from real contact/process.
 - [ ] `CONTRIBUTING.md` filled from real setup/test commands.
@@ -232,6 +233,7 @@ Use `templates/repo/` and `templates/policies/`.
 - [ ] Brand/site concepts generated with Gemini/Nano Banana, if site work is in scope.
 - [ ] Final selected designs collected.
 - [ ] Site implementation reviewed with Gemini CLI, if site work is in scope.
+- [ ] Optional UI makeover round completed or explicitly skipped. If completed: current UI captured, broad mood board collected, multiple candidates compared, real implementation captured, quality-parity review passed, stale screenshots/GIFs marked for regeneration.
 - [ ] README demo GIF or short video.
 - [ ] 7-second social cut.
 - [ ] OG/social image.

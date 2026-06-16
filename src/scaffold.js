@@ -1,6 +1,6 @@
 import { cp, mkdir, readdir, rm, stat } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
-import { templatesRoot } from './paths.js';
+import { packageRoot, templatesRoot } from './paths.js';
 
 const scaffoldFiles = [
   '.env.example',
@@ -24,6 +24,17 @@ const scaffoldFiles = [
   'PENDING.md'
 ];
 
+const playbookFiles = [
+  'README.md',
+  'operating-procedure.md',
+  'oss-repo-quality-workflow.md',
+  'repo-structure.md',
+  'ui-makeover-workflow.md',
+  'visual-pass-checkpoint-template.md',
+  'visual-workflow.md',
+  'website-readiness-review.md'
+];
+
 export async function scaffoldWorkspace(target, options = {}) {
   const targetDir = resolve(target);
   if (options.force) await rm(targetDir, { recursive: true, force: true });
@@ -35,6 +46,10 @@ export async function scaffoldWorkspace(target, options = {}) {
   }
   await cp(join(templatesRoot, 'repo'), join(targetDir, 'repo'), { recursive: true });
   await cp(join(templatesRoot, 'policies'), join(targetDir, 'repo', 'docs'), { recursive: true });
+  await mkdir(join(targetDir, 'playbook'), { recursive: true });
+  for (const file of playbookFiles) {
+    await cp(join(packageRoot, 'docs', file), join(targetDir, 'playbook', file));
+  }
   await mkdir(join(targetDir, 'site', 'assets'), { recursive: true });
   await mkdir(join(targetDir, 'references'), { recursive: true });
   await mkdir(join(targetDir, 'review'), { recursive: true });

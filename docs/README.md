@@ -7,7 +7,8 @@ Start here:
 - `operating-procedure.md` for the end-to-end launch sequence.
 - `visual-workflow.md` for the mood-board, image-generation, and site implementation loop.
 - `website-readiness-review.md` for the final pass that turns artboards into a real site.
+- `oss-repo-quality-workflow.md` for making the public repo credible as a launch surface.
+- `ui-makeover-workflow.md` for improving the real product UI shown in demos, screenshots, and README media.
 - `repo-structure.md` for how this repository separates product source from dogfood output.
 
 The docs are intentionally product-agnostic. Product-specific launch output belongs under `examples/<product>/`.
-

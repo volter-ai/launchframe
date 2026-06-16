@@ -36,7 +36,11 @@ The README and launch copy must lead with a falsifiable demo. For a CLI, this us
 
 Do not launch until the install command works from a clean environment.
 
-## 5. Capture Path
+## 5. Repo Quality
+
+If the repo is the launch target or a major trust surface, run `oss-repo-quality-workflow.md` before treating README polish as done. Capture comparable repos, define the first-screen story, use only real badges, verify install/demo/package contents, and run a final repo parity review against the references.
+
+## 6. Capture Path
 
 If the launch has a paid-intent CTA, make capture durable before promoting it.
 
@@ -49,15 +53,17 @@ Verify:
 - Export/backfill works.
 - Founder/operator notification arrives.
 
-## 6. Visual And Site Work
+## 7. Visual And Site Work
 
 Use the visual workflow in `visual-workflow.md`. The mood board and generated artboards should lead the direction. The implementation cycle must compare the real site against the selected references and produce a gap report after each pass.
 
-## 7. Trust And Policy
+If the product UI itself will appear in the README, demo GIF, screenshots, or HN proof, run `ui-makeover-workflow.md` after product truth is verified. Capture the current UI, collect real references, generate multiple directions, implement natively, and compare real screenshots against the mood board before regenerating launch media.
+
+## 8. Trust And Policy
 
 Use template policy/repo docs, then fill only facts that are true. Agents should not invent legal terms. If legal language is not reviewed, mark it as a launch gate or remove the claim/surface.
 
-## 8. Launch Copy
+## 9. Launch Copy
 
 Create:
 
@@ -68,7 +74,7 @@ Create:
 
 Never solicit votes.
 
-## 9. Readiness
+## 10. Readiness
 
 Run:
 
@@ -79,7 +85,7 @@ launchframe evidence .
 
 Then verify public deployed state, package install, capture, policy/trust docs, and launch-day runbook.
 
-## 10. Adversarial Review
+## 11. Adversarial Review
 
 Before public posting, run `11-adversarial-review.md` as a skeptical reviewer. Try to disprove or weaken the launch:
 
@@ -92,6 +98,6 @@ Before public posting, run `11-adversarial-review.md` as a skeptical reviewer. T
 
 Fix issues, downgrade claims, or record blockers before proceeding.
 
-## 11. Launch Day
+## 12. Launch Day
 
 The founder/operator should be available for replies. Log what was posted, when, what changed, and what feedback should update the product or templates.

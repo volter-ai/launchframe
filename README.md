@@ -39,7 +39,7 @@ launchframe evidence <dir>
 bin/                  CLI entrypoint
 src/                  scaffold, validate, and evidence commands
 templates/            reusable launch workspace templates
-docs/                 operating procedure and visual workflow docs
+docs/                 operating procedure, repo quality, visual, and UI makeover docs
 examples/launchframe/ dogfood launch output for Launchframe itself
 ```
 
