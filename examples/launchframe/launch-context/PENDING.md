@@ -4,7 +4,7 @@
 
 | ID | Type | Item | Current default / next action | Blocks | Status |
 |---|---|---|---|---|---|
-| _none_ |  |  |  |  |  |
+| LF-P-001 | owner | HN account readiness. | `aaronyetc` was created during dress rehearsal; do not immediately post from it. Use an established human HN account or wait until the account is appropriate. | Show HN posting | pending |
 
 ## Resolved
 

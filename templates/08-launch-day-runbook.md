@@ -49,6 +49,7 @@ Run against real deployed surfaces and go all the way up to the final public sub
 - [ ] Run the demo or validation command from a temp directory.
 - [ ] Open live site, npm/package page, GitHub repo, CI, issues, docs, security policy, and capture form.
 - [ ] Verify capture notification path or recheck prior evidence.
+- [ ] Verify the HN account is established enough for a public launch. Do not post immediately from a just-created account.
 - [ ] Open the HN submission form, fill the final title and URL, and stop before final submit.
 - [ ] Prepare the HN first comment and stop before posting.
 - [ ] Open the Reddit post composer, fill subreddit/flair/link/copy, and stop before final submit.

@@ -4,6 +4,12 @@ Use these drafts for the live dress rehearsal. Stop before final submit/post.
 
 ## Show HN
 
+Account readiness:
+
+```text
+Do not post immediately from the newly-created aaronyetc account. Use an established human HN account or wait until the account is appropriate.
+```
+
 Title:
 
 ```text

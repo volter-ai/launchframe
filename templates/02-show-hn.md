@@ -10,6 +10,13 @@
 
 Use the GitHub repo for OSS launches unless the product requires a hosted demo to be understood.
 
+## Account Readiness
+
+- Use an established human HN account when possible.
+- Do not create a new account and immediately post a launch from it.
+- If the only available account is newly created or has no history, stop before public posting and record the account-readiness gap in `PENDING.md`.
+- Never automate voting, commenting, or engagement.
+
 ## Founder First Comment
 
 Structure:
@@ -51,4 +58,3 @@ Draft:
 ## Safety Net
 
 If the post stalls despite being substantive, consider the HN second-chance path or a later repost with meaningful improvements.
-

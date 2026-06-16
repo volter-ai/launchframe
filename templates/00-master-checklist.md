@@ -240,6 +240,7 @@ Use `templates/repo/` and `templates/policies/`.
 
 - [ ] Show HN title.
 - [ ] Founder first comment.
+- [ ] HN account selected, already established, and appropriate for posting.
 - [ ] Objection cheat sheet.
 - [ ] X/Twitter thread.
 - [ ] Reddit native posts.
@@ -266,6 +267,7 @@ Run against live surfaces and go all the way up to the final public submit/post 
 - [ ] Demo or validation command from a temp directory.
 - [ ] Site, repo, package, docs, issue tracker, and capture form opened and verified.
 - [ ] Tally/contact notification path verified or existing evidence rechecked.
+- [ ] HN account age/history reviewed. If a new account was just created, stop before posting and route launch through an established human account.
 - [ ] HN submission form opened, final title and URL filled, and stopped before final submit.
 - [ ] HN first comment prepared and stopped before posting.
 - [ ] Reddit post composer opened, final copy/subreddit/flair/link filled, and stopped before final submit.

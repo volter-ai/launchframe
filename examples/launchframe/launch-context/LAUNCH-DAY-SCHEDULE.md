@@ -14,8 +14,9 @@ No external side effects. Use this to prove the sequence is coherent.
 | 2 | Confirm surfaces: site, npm, GitHub repo, issues, security docs, Startup Pilot form. |  |
 | 3 | Confirm credential source: ignored `.env` in this repo. Do not print tokens. |  |
 | 4 | Confirm go/no-go criteria. |  |
-| 5 | Confirm the stop rule: fill live posting forms, but do not click final submit/post. |  |
-| 6 | Record gaps in `PENDING.md`. |  |
+| 5 | Confirm HN account readiness. A newly-created account is not launch-ready for immediate posting. |  |
+| 6 | Confirm the stop rule: fill live posting forms, but do not click final submit/post. |  |
+| 7 | Record gaps in `PENDING.md`. |  |
 
 ## Live Dress Rehearsal
 
@@ -27,6 +28,7 @@ Run against live surfaces and go all the way up to the final public submit/post 
 | D-40 | Run `npx launchframe-cli validate workspace`. |  |
 | D-35 | Open live site, npm page, GitHub repo, issues, security docs, and Startup Pilot form. |  |
 | D-25 | Verify Tally capture/notification evidence. |  |
+| D-22 | Verify HN account readiness. If the account was just created, stop before Show HN posting. |  |
 | D-20 | Fill the HN submission form with final title and URL, then stop before final submit. |  |
 | D-18 | Prepare the HN first comment, then stop before posting. |  |
 | D-15 | Fill Reddit composer with final subreddit/flair/link/copy, then stop before final submit. |  |
