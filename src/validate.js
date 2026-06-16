@@ -430,7 +430,7 @@ function validateEvidenceReport(root, org, failures) {
     if (!proofType || !/command|url|artifact|screenshot|source|owner|registry|deploy|review/i.test(proofType)) {
       failures.push(`EVIDENCE-REPORT.md missing proof type for required surface: ${surface.id}`);
     }
-    if (!evidence || evidence.length < 8 || /^(manual|checked|recorded|evidence)$/i.test(evidence)) failures.push(`EVIDENCE-REPORT.md missing concrete evidence for required surface: ${surface.id}`);
+    if (!evidence || evidence.length < 8 || /^(manual|checked|recorded|evidence)$/i.test(evidence) || !isConcreteEvidence(evidence)) failures.push(`EVIDENCE-REPORT.md missing concrete evidence for required surface: ${surface.id}`);
     if (!result || result.length < 4 || /^(pass|ok|works)$/i.test(result)) failures.push(`EVIDENCE-REPORT.md missing concrete result for required surface: ${surface.id}`);
     if (!evidenceStatuses.has(status)) failures.push(`EVIDENCE-REPORT.md invalid status for required surface ${surface.id}: ${status || 'missing'}`);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(date || '')) failures.push(`EVIDENCE-REPORT.md missing YYYY-MM-DD date for required surface: ${surface.id}`);
@@ -545,11 +545,14 @@ function validateChannelReadiness(root, org, failures) {
   for (const label of ['Title:', 'URL:', 'Founder first comment:']) {
     if (!hasFilledLabel(showHn, label)) failures.push(`02-show-hn.md missing ${label}`);
   }
-  if (!/HN account suitability:\s*(?!TBD|unknown|new account|not checked).{6,}/i.test(showHn + '\n' + rehearsal)) {
+  if (!/HN account suitability:\s*(?=.*(?:account|manual post|owner will post|u\/|user:))(?=.*(?:\d{4}-\d{2}-\d{2}|reviewed by|reviewer)).{12,}/i.test(showHn + '\n' + rehearsal)) {
     failures.push('Show HN readiness requires account suitability evidence');
   }
-  if (!/Show HN pre-submit rehearsal:\s*(?!TBD|not done).{6,}/i.test(rehearsal)) {
+  if (!/Show HN pre-submit rehearsal:\s*(?=.*(?:screenshot|EVIDENCE|recorded|artifact|stopped before submit|pre-submit)).{12,}/i.test(showHn + '\n' + rehearsal)) {
     failures.push('Show HN readiness requires stop-before-submit rehearsal evidence');
+  }
+  if (!/Show HN pre-submit rehearsal.*\|\s*(command|url|artifact|screenshot|owner|review)/i.test(rehearsal)) {
+    failures.push('EVIDENCE-REPORT.md should include a Show HN pre-submit rehearsal evidence row');
   }
 }
 
@@ -650,6 +653,10 @@ function markdownRows(text) {
       raw: line,
       cells: line.split('|').slice(1, -1).map((cell) => cell.trim())
     }));
+}
+
+function isConcreteEvidence(value) {
+  return /(https?:\/\/|\/|\.\/|[A-Za-z]:\\|^gh\s|^npm\s|^npx\s|^curl\s|^rg\s|^python\s|^pytest\s|^docker\s|^helm\s|^kubectl\s|screenshot|artifact|sha256|digest|owner approval|release|registry|listing)/i.test(value);
 }
 
 function isMissing(value) {
