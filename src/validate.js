@@ -14,6 +14,7 @@ const requiredWorkspaceFiles = [
   '08-launch-day-runbook.md',
   '09-retro.md',
   '10-worklog.md',
+  '11-adversarial-review.md',
   'OWNER-QUESTIONS.md',
   'PENDING.md',
   'repo/README.md',

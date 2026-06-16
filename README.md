@@ -18,6 +18,13 @@ It is a template and validation system for launches that need more than a checkl
 - A validator that catches missing launch context before public posting.
 - An evidence report scaffold for commands, deploys, submissions, and owner confirmations.
 
+## What It Does Not Do
+
+- It does not submit posts, automate comments, solicit votes, or manage engagement.
+- It does not verify the truth of every claim automatically; validation is mostly structural in this beta.
+- It does not replace owner/legal review for privacy, terms, security, or commercial claims.
+- It does not make a launch successful by itself. It makes the work easier to reconstruct, review, and rehearse.
+
 ## Commands
 
 ```sh
@@ -50,4 +57,4 @@ The root of this repo is the reusable OSS product. `examples/launchframe/` is th
 
 ## Status
 
-`0.1.0-beta.5` is the first public-beta scaffold. The included dogfood example shows Launchframe being used to launch Launchframe.
+`0.1.0-beta.6` is the first public-beta scaffold. The included dogfood example shows Launchframe being used to launch Launchframe.

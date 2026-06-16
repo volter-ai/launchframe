@@ -79,7 +79,19 @@ launchframe evidence .
 
 Then verify public deployed state, package install, capture, policy/trust docs, and launch-day runbook.
 
-## 10. Launch Day
+## 10. Adversarial Review
+
+Before public posting, run `11-adversarial-review.md` as a skeptical reviewer. Try to disprove or weaken the launch:
+
+- Does the README explain the mechanism quickly?
+- Does the install path work from a clean environment?
+- Does the package contain only intended files?
+- Are privacy, telemetry, hosted-service, pricing, and support claims true?
+- Would HN reasonably call this a checklist, process theater, or launch automation?
+- Are account and posting behaviors human and appropriate?
+
+Fix issues, downgrade claims, or record blockers before proceeding.
+
+## 11. Launch Day
 
 The founder/operator should be available for replies. Log what was posted, when, what changed, and what feedback should update the product or templates.
-

@@ -10,6 +10,7 @@ Primary context files:
 - `00-brand-context.md` — narrative brand, positioning, voice, visual, and channel context.
 - `00-external-prereqs.md` — credentials, sign-ins, publish tokens, registrar keys, and purchase approval gates.
 - `01-business-model-research.md` — sourced comparable products, business models, pricing, BYOK/self-host posture, and monetization implications.
+- `11-adversarial-review.md` — skeptical repo, product, claim, install, trust, and launch-channel review before public posting.
 - `PENDING.md` — running queue for owner questions, sent questions, external waits, operational blockers, and defaulted assumptions.
 
 ## 0. Current Launch Dashboard
@@ -191,6 +192,7 @@ Fill these from `00-org-context.json` and `00-brand-context.md`.
 - [ ] UI demo is recorded from a reproducible Playwright/browser flow, if a UI is part of the proof.
 - [ ] Public package/repo is scrubbed of private data and secrets.
 - [ ] README explains the product, mechanism, install, and demo in the first screen.
+- [ ] Adversarial repo/product review is complete, with serious objections either fixed, downgraded in copy, or recorded as blockers.
 - [ ] Deployed site copy, links, package/install status, canonical URL, and OG metadata were rechecked after every real external state transition.
 - [ ] License, SECURITY, CONTRIBUTING, and issue templates are present.
 - [ ] Privacy, terms, telemetry, and data-use docs are present or explicitly not applicable.
@@ -246,6 +248,19 @@ Use `templates/repo/` and `templates/policies/`.
 - [ ] Reddit native posts.
 - [ ] Technical article draft.
 - [ ] Outreach templates.
+
+## 7.5. Adversarial Review
+
+Run before dress rehearsal and again after any major claim, README, package, or site change.
+
+- [ ] Skeptical README review: can a visitor understand what it is, how it works, and what proof exists within one screen?
+- [ ] Cold install review: does a clean install work exactly as documented?
+- [ ] Package contents review: does npm include only intended files and no secrets/private artifacts?
+- [ ] Claim review: every public claim maps to repo behavior, docs, or recorded evidence.
+- [ ] Trust review: license, security, privacy, terms, telemetry, support, and issue paths are present and not overclaimed.
+- [ ] HN objection review: "Why not a checklist?", "Is this process theater?", "What does validation really validate?", "Is this launch automation or vote-seeking?"
+- [ ] Channel-risk review: account readiness, subreddit fit/flair, no vote solicitation, no bot-like navigation/posting.
+- [ ] Fixes made or blockers recorded in `PENDING.md`.
 
 ## 8. Launch Day
 
