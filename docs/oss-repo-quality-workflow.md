@@ -6,7 +6,7 @@ This is separate from the brand/site workflow and the UI makeover workflow. A re
 
 ## Procedure
 
-Save artifacts under `repo-parity/` or an equivalent product workspace folder.
+Save artifacts under `oss-repo-quality/` or an equivalent product workspace folder.
 
 ### 0. Scope And Claims
 
@@ -110,7 +110,7 @@ After implementation, compare the real repo against the comparable mood board:
 - Require findings in this order: first-screen clarity, credibility/proof, missing trust surfaces, unsupported claims, visual/readability gaps, stale/broken links, deferred public-only signals.
 - Fix ranked issues and repeat until GO or CONDITIONAL GO with explicit deferred items.
 
-Output: `reviews/01-repo-parity-review.md`, follow-up reviews, `final/screenshots/`.
+Output: `reviews/01-oss-repo-quality-review.md`, follow-up reviews, `final/screenshots/`.
 
 ### 7. Public Flip And Public-Only Signals
 

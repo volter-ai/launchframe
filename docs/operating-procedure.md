@@ -38,7 +38,7 @@ Do not launch until the install command works from a clean environment.
 
 ## 5. Repo Quality
 
-If the repo is the launch target or a major trust surface, run `oss-repo-quality-workflow.md` before treating README polish as done. Capture comparable repos, define the first-screen story, use only real badges, verify install/demo/package contents, and run a final repo parity review against the references.
+If the repo is the launch target or a major trust surface, run `oss-repo-quality-workflow.md` before treating README polish as done. Capture comparable repos, define the first-screen story, use only real badges, verify install/demo/package contents, and run a final OSS repo quality review against the references.
 
 ## 6. Capture Path
 
