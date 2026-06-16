@@ -13,5 +13,5 @@ jobs:
         with:
           node-version: 24
       - run: npm run check
+      - run: npm run dogfood
       - run: npm run smoke
-

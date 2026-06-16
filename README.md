@@ -50,6 +50,12 @@ examples/launchframe/ dogfood launch output for Launchframe itself
 
 The root of this repo is the reusable OSS product. `examples/launchframe/` is the dogfood launch generated from the process: site, launch context, policy collateral, and capture-flow evidence.
 
+The dogfood launch is validator-backed:
+
+```sh
+npm run dogfood
+```
+
 ## Launch Principles
 
 - Gather real product/org facts before writing launch copy.
@@ -62,4 +68,4 @@ The root of this repo is the reusable OSS product. `examples/launchframe/` is th
 
 ## Status
 
-`0.1.0-beta.9` is the current public-beta scaffold. The included dogfood example shows Launchframe being used to launch Launchframe.
+`0.1.0-beta.10` is the current public-beta scaffold. The included dogfood example shows Launchframe being used to launch Launchframe.

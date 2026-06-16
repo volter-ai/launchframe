@@ -14,7 +14,7 @@
     "public_name": "Launchframe",
     "one_sentence_description": "Launchframe creates auditable launch workspaces for OSS developer-tool launches.",
     "launch_objective": "design_partners",
-    "launch_version": "0.1.0-beta.9",
+    "launch_version": "0.1.0-beta.10",
     "license_spdx": "Apache-2.0",
     "business_model": "free_oss_plus_startup_pilot_plus_enterprise",
     "telemetry_default": "none",

@@ -1,0 +1,248 @@
+{
+  "schema_version": "1.0",
+  "status": "public_beta_launch",
+  "last_updated": "2026-06-16",
+  "owner_approval": {
+    "approver_name": "Aaron",
+    "approver_role": "Owner",
+    "approval_required_before_publish": true
+  },
+  "organization": {
+    "legal_name": "Volter AI, Inc.",
+    "public_name": "Launchframe",
+    "website": "https://launchframe.site/",
+    "support_email": "GitHub Issues: https://github.com/volter-ai/launchframe/issues",
+    "security_email": "GitHub Security Advisories: https://github.com/volter-ai/launchframe/security/advisories",
+    "privacy_email": "GitHub Issues: https://github.com/volter-ai/launchframe/issues",
+    "terms_email": "GitHub Issues: https://github.com/volter-ai/launchframe/issues",
+    "mailing_address": null,
+    "jurisdiction": "Delaware, United States"
+  },
+  "product": {
+    "working_name": "Launchframe",
+    "public_name": "Launchframe",
+    "one_sentence_description": "Launchframe creates auditable launch workspaces for OSS developer-tool launches.",
+    "launch_type": "cli",
+    "product_domains": ["other"],
+    "launch_objective": "design_partners",
+    "launch_scope": "Public beta of the CLI scaffold, validator, templates, dogfood site, and npm package.",
+    "project_mechanism": "A Node CLI copies launch workspace templates, validates required launch context, and generates evidence report scaffolds.",
+    "primary_user": "OSS developer-tool maintainers preparing HN, Reddit, package, repo, site, and launch-day materials.",
+    "core_falsifiable_claim": "A clean public npx install can create and validate a Launchframe workspace.",
+    "launch_version": "0.1.0-beta.10",
+    "current_public_state": "public",
+    "license_spdx": "Apache-2.0",
+    "business_model": "oss_plus_startup_pilot_plus_enterprise",
+    "pricing_status": "private/custom",
+    "monetization_summary": "Free OSS CLI with optional startup pilot and custom enterprise support; no payment collection in the public beta flow.",
+    "default_tiers": {
+      "free_oss": {
+        "enabled": true,
+        "summary": "The CLI and templates are open source under Apache-2.0."
+      },
+      "startup_pilot": {
+        "enabled": true,
+        "price_anchor": "private/custom",
+        "summary": "Optional guided launch support for early teams.",
+        "payment_timing": "No payment collected until fit is confirmed."
+      },
+      "enterprise": {
+        "enabled": true,
+        "pricing": "custom",
+        "summary": "Custom launch process support for teams with security, procurement, or multi-product needs."
+      }
+    },
+    "free_self_host_available": true,
+    "byok_supported": "not_applicable",
+    "telemetry_default": "none",
+    "hosted_service": false,
+    "accounts_required": false,
+    "payments_enabled": false,
+    "ai_data_usage": "none in the CLI"
+  },
+  "claim_risk_profile": {
+    "performance_claims": "none",
+    "security_claims": "owner_approval_required",
+    "privacy_claims": "verified",
+    "accessibility_claims": "none",
+    "compliance_claims": "none",
+    "finance_legal_health_claims": "none",
+    "enterprise_or_production_claims": "owner_approval_required",
+    "claim_downgrade_notes": "Do not claim automated launch success, truth verification, security compliance, or production readiness."
+  },
+  "owner_authorization": {
+    "authorization_status": "approved_with_limits",
+    "allowed_side_effects": {
+      "read_public_sources": true,
+      "inspect_local_source": true,
+      "create_local_files": true,
+      "create_remote_repo": true,
+      "publish_staging_package": true,
+      "publish_public_package": true,
+      "buy_domain": true,
+      "max_domain_spend_usd": 15,
+      "deploy_public_site": true,
+      "submit_marketplace_review": false,
+      "post_public_channels": false
+    },
+    "credential_paths": [
+      {
+        "provider": "npm",
+        "path": "ignored repo-local .env NPM_TOKEN",
+        "usable_by_agent": true,
+        "notes": "Use a temporary npmrc for publish commands."
+      },
+      {
+        "provider": "hosting",
+        "path": "GitHub Actions Pages on volter-ai/launchframe",
+        "usable_by_agent": true,
+        "notes": "Deploys from examples/launchframe/site on main."
+      }
+    ],
+    "claim_boundaries": {
+      "must_not_claim": [
+        "automated launch success",
+        "automatic truth verification",
+        "security compliance",
+        "production readiness"
+      ],
+      "requires_owner_approval": [
+        "pricing",
+        "roadmap",
+        "security",
+        "privacy",
+        "compliance",
+        "performance",
+        "enterprise readiness"
+      ],
+      "automatic_downgrade_rule": "If evidence is missing, weaken the claim or mark it blocked instead of asking piecemeal."
+    }
+  },
+  "source_of_truth": {
+    "local_repo_path": "/Users/yueranyuan/volter/launchframe",
+    "online_repo_url": "https://github.com/volter-ai/launchframe",
+    "docs_path_or_url": "https://github.com/volter-ai/launchframe/tree/main/docs",
+    "readme_path": "README.md",
+    "demo_path": "examples/launchframe/site/assets/launchframe-demo.gif",
+    "package_registry_url": "https://www.npmjs.com/package/launchframe-cli",
+    "website_url": "https://launchframe.site/",
+    "release_pipeline_path": ".github/workflows/ci.yml",
+    "ci_url": "https://github.com/volter-ai/launchframe/actions"
+  },
+  "surfaces": {
+    "github_org": "volter-ai",
+    "github_repo_target": "volter-ai/launchframe",
+    "package_manager": "npm",
+    "package_name": "launchframe-cli",
+    "install_command": "npx launchframe-cli init my-launch",
+    "quickstart_command": "npx launchframe-cli validate my-launch --template",
+    "domain": "launchframe.site",
+    "registrar": "Name.com",
+    "hosting_provider": "GitHub Pages",
+    "analytics_provider": "none",
+    "x_handle": null,
+    "linkedin_url": null,
+    "discord_url": null,
+    "slack_url": null,
+    "hn_account": "aaronyetc",
+    "newsletter_or_blog_url": null
+  },
+  "distribution_surfaces": [
+    {
+      "id": "npm_package",
+      "type": "npm",
+      "scope": "required",
+      "name": "launchframe-cli",
+      "registry_or_host": "https://www.npmjs.com/package/launchframe-cli",
+      "install_or_access_command": "npx launchframe-cli init my-launch",
+      "verification_command": "npx --yes launchframe-cli@latest init workspace && npx --yes launchframe-cli@latest validate workspace --template",
+      "expected_result": "Workspace is created and template validation passes from a clean temp directory.",
+      "credential_provider": "npm",
+      "async_review_state": "published",
+      "side_effect_required": "publish_public",
+      "current_state": "published",
+      "readiness_template": "surfaces/package-npm.md"
+    },
+    {
+      "id": "docs_site",
+      "type": "docs_site",
+      "scope": "required",
+      "name": "launchframe.site",
+      "registry_or_host": "https://launchframe.site/",
+      "install_or_access_command": "https://launchframe.site/",
+      "verification_command": "GitHub Pages workflow and browser/URL check",
+      "expected_result": "Launchframe site and Startup Pilot page are live over HTTPS.",
+      "credential_provider": "hosting",
+      "async_review_state": "not_applicable",
+      "side_effect_required": "deploy_public",
+      "current_state": "published",
+      "readiness_template": "surfaces/docs-site.md"
+    },
+    {
+      "id": "trust_privacy",
+      "type": "trust_privacy",
+      "scope": "required",
+      "name": "Launchframe trust and policy docs",
+      "registry_or_host": "https://github.com/volter-ai/launchframe",
+      "install_or_access_command": "README.md and docs policy files",
+      "verification_command": "rg source inspection plus docs review",
+      "expected_result": "No CLI telemetry/network behavior is found and policy docs avoid unsupported hosted-service claims.",
+      "credential_provider": "none",
+      "async_review_state": "not_applicable",
+      "side_effect_required": "none",
+      "current_state": "verified",
+      "readiness_template": "surfaces/trust-privacy.md"
+    }
+  ],
+  "claim_risk": {
+    "security": "high",
+    "privacy": "high",
+    "encryption": "none",
+    "performance": "none",
+    "accessibility": "none",
+    "compliance": "none",
+    "finance_legal_health": "none",
+    "automatic_rule": "High-risk claims require evidence or explicit owner approval; otherwise weaken or remove."
+  },
+  "policy_docs": {
+    "license_path": "LICENSE",
+    "security_path": "SECURITY.md",
+    "contributing_path": "CONTRIBUTING.md",
+    "code_of_conduct_path": "CODE_OF_CONDUCT.md",
+    "privacy_path": "docs/PRIVACY.md",
+    "terms_path": "docs/TERMS.md",
+    "telemetry_path": "docs/TELEMETRY.md",
+    "responsible_disclosure_path": "SECURITY.md",
+    "data_retention_summary": "The CLI stores only local workspace files. The Startup Pilot form stores submitted email/source data in Tally."
+  },
+  "launch": {
+    "primary_channel": "Show HN",
+    "link_target": "github_repo",
+    "launch_date_time": "2026-06-17 operator-selected",
+    "readiness_mode": "pre_submit_ready",
+    "founder_available_hours": 6,
+    "product_hunt_in_scope": false,
+    "reddit_in_scope": true,
+    "communities_to_avoid": []
+  },
+  "verification": {
+    "core_falsifiable_demo": "Clean npx scaffold and validation pass.",
+    "demo_command": "npx --yes launchframe-cli@latest init workspace && npx --yes launchframe-cli@latest validate workspace --template",
+    "expected_failure": "Normal validation fails until a generated workspace is filled with real launch facts and evidence.",
+    "expected_pass": "Template validation passes on a freshly generated scaffold.",
+    "clean_install_verified": true,
+    "data_scrub_verified": true,
+    "public_claims_verified_by": "Codex",
+    "last_verified_at": "2026-06-16"
+  },
+  "notes": {
+    "known_limitations": [
+      "Validation is structural and evidence-oriented; it does not prove every public claim is true.",
+      "Show HN posting waits on human account suitability."
+    ],
+    "hard_constraints": [
+      "No vote solicitation, comment automation, or bot-like public posting."
+    ],
+    "open_questions": []
+  }
+}
