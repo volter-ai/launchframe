@@ -14,8 +14,8 @@ Generated: ${now}
 
 ## Distribution Surface Evidence
 
-| Surface | Type | Scope | State | Verification Command | Evidence URL Or Command | Result | Status | Date |
-|---|---|---|---|---|---|---|---|---|
+| Surface | Type | Scope | State | Proof Type | Command URL Or Artifact | Actual Result | Status | Date | Reviewer |
+|---|---|---|---|---|---|---|---|---|---|
 ${surfaceRows}
 
 ## Side-Effect Evidence
@@ -67,6 +67,7 @@ function surfaceEvidenceRow(surface) {
     surface.type || 'surface',
     surface.scope || 'unknown',
     surface.current_state || 'TBD',
+    'TBD',
     surface.verification_command || 'TBD',
     'TBD',
     'TBD',

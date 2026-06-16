@@ -14,6 +14,8 @@ Final submission:
 
 Title:
 URL:
+HN account suitability:
+Show HN pre-submit rehearsal:
 
 ## Account Readiness
 

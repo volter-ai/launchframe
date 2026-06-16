@@ -6,7 +6,7 @@ Completion semantics for selected surface modules:
 
 - `[x] verified` means the agent verified it from source, command output, deployed state, or registry state.
 - `[x] owner-approved` means the owner explicitly accepted the claim, side effect, or policy text.
-- `[x] out of scope` means the item is not part of this launch and the public copy does not advertise it.
+- `[x] owner-approved out of scope` means the item is not part of this launch, the public copy does not advertise it, and the owner accepts the omission.
 - Leave no unchecked boxes in required surface modules before final validation.
 
 ## Profiles

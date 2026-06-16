@@ -421,14 +421,20 @@ function validateEvidenceReport(root, org, failures) {
     if (/\b(TBD|TODO)\b/i.test(row.raw) || /\|\s*(done|yes|n\/a|na)\s*\|/i.test(row.raw)) {
       failures.push(`EVIDENCE-REPORT.md has weak evidence for required surface: ${surface.id}`);
     }
-    const status = row.cells.at(-2)?.toLowerCase();
-    const date = row.cells.at(-1);
-    const evidence = row.cells.at(-4);
-    const result = row.cells.at(-3);
-    if (!evidence || evidence.length < 8) failures.push(`EVIDENCE-REPORT.md missing concrete evidence for required surface: ${surface.id}`);
-    if (!result || result.length < 4) failures.push(`EVIDENCE-REPORT.md missing concrete result for required surface: ${surface.id}`);
+    const reviewer = row.cells.at(-1);
+    const date = row.cells.at(-2);
+    const status = row.cells.at(-3)?.toLowerCase();
+    const result = row.cells.at(-4);
+    const evidence = row.cells.at(-5);
+    const proofType = row.cells.at(-6);
+    if (!proofType || !/command|url|artifact|screenshot|source|owner|registry|deploy|review/i.test(proofType)) {
+      failures.push(`EVIDENCE-REPORT.md missing proof type for required surface: ${surface.id}`);
+    }
+    if (!evidence || evidence.length < 8 || /^(manual|checked|recorded|evidence)$/i.test(evidence)) failures.push(`EVIDENCE-REPORT.md missing concrete evidence for required surface: ${surface.id}`);
+    if (!result || result.length < 4 || /^(pass|ok|works)$/i.test(result)) failures.push(`EVIDENCE-REPORT.md missing concrete result for required surface: ${surface.id}`);
     if (!evidenceStatuses.has(status)) failures.push(`EVIDENCE-REPORT.md invalid status for required surface ${surface.id}: ${status || 'missing'}`);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(date || '')) failures.push(`EVIDENCE-REPORT.md missing YYYY-MM-DD date for required surface: ${surface.id}`);
+    if (!reviewer || reviewer.length < 3) failures.push(`EVIDENCE-REPORT.md missing reviewer for required surface: ${surface.id}`);
     if (org.launch?.readiness_mode === 'public_launch_ready' && status !== 'pass' && status !== 'verified') {
       failures.push(`public_launch_ready requires pass/verified evidence for required surface: ${surface.id}`);
     }
@@ -445,6 +451,25 @@ function validateOwnerAuthorizationMarkdown(root, org, failures) {
   const jsonStatus = org.owner_authorization?.authorization_status;
   if (jsonStatus && !new RegExp(`- Status:\\s*${jsonStatus.replaceAll('_', '[ _-]')}`, 'i').test(text)) {
     failures.push('00-owner-authorization.md status must match 00-org-context.json owner_authorization.authorization_status');
+  }
+  const launchMode = org.launch?.readiness_mode;
+  if (launchMode && !new RegExp(launchMode.replaceAll('_', '[ _-]'), 'i').test(text)) {
+    failures.push('00-owner-authorization.md launch mode should reference launch.readiness_mode');
+  }
+  for (const surface of (org.distribution_surfaces || []).filter((candidate) => candidate.scope === 'required')) {
+    if (!text.includes(surface.id) && !text.includes(surface.name)) {
+      failures.push(`00-owner-authorization.md missing selected required surface: ${surface.id}`);
+    }
+  }
+  const requiredProviders = new Set(
+    (org.distribution_surfaces || [])
+      .filter((surface) => surface.scope === 'required' && surface.credential_provider && surface.credential_provider !== 'none')
+      .map((surface) => surface.credential_provider)
+  );
+  for (const provider of requiredProviders) {
+    if (!new RegExp(`\\b${provider}\\b`, 'i').test(text)) {
+      failures.push(`00-owner-authorization.md missing credential provider: ${provider}`);
+    }
   }
 }
 
@@ -480,6 +505,12 @@ function validateOwnerApprovalGate(root, org, failures) {
   const actionRows = markdownRows(text).filter((row) =>
     /Publish package|Flip repo public|Buy\/configure domain|Submit marketplace|Post Show HN|Post Reddit/.test(row.raw)
   );
+  const requiredActions = ['Publish package/listing', 'Flip repo public', 'Buy/configure domain', 'Submit marketplace/app review', 'Post Show HN', 'Post Reddit/social'];
+  for (const action of requiredActions) {
+    if (!actionRows.some((row) => row.cells[0] === action)) {
+      failures.push(`12-owner-approval-gate.md missing irreversible action row: ${action}`);
+    }
+  }
   for (const row of actionRows) {
     const approval = row.cells.at(-1)?.toLowerCase();
     if (!['approved', 'rejected', 'not_applicable', 'not applicable'].includes(approval)) {
@@ -514,10 +545,10 @@ function validateChannelReadiness(root, org, failures) {
   for (const label of ['Title:', 'URL:', 'Founder first comment:']) {
     if (!hasFilledLabel(showHn, label)) failures.push(`02-show-hn.md missing ${label}`);
   }
-  if (!/account suitability|HN account|established human/i.test(showHn + '\n' + rehearsal)) {
+  if (!/HN account suitability:\s*(?!TBD|unknown|new account|not checked).{6,}/i.test(showHn + '\n' + rehearsal)) {
     failures.push('Show HN readiness requires account suitability evidence');
   }
-  if (!/stop.*before.*submit|pre-submit|submit.*rehearsal/i.test(rehearsal)) {
+  if (!/Show HN pre-submit rehearsal:\s*(?!TBD|not done).{6,}/i.test(rehearsal)) {
     failures.push('Show HN readiness requires stop-before-submit rehearsal evidence');
   }
 }
