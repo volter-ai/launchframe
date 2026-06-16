@@ -2,18 +2,18 @@
 
 Reviewer: Codex
 Date: 2026-06-16
-Product/version: Launchframe `0.1.0-beta.8`
+Product/version: Launchframe `0.1.0-beta.9`
 Launch mode: public beta prep, no public HN/Reddit post submitted
 Public link target: `https://github.com/volter-ai/launchframe`
 Install command: `npx launchframe-cli init my-launch`
 
 ## Summary
 
-- Overall verdict: conditional go.
-- Hard blockers: Show HN should not be posted from the newly-created `aaronyetc` account.
+- Overall verdict: go.
+- Hard blockers: none for the beta release surfaces.
 - Claims to weaken: avoid implying validation proves truth; it is mostly structural in this beta.
 - Fixes made: README now includes "What It Does Not Do"; HN copy says validation is mostly structural; HN account-readiness guard added.
-- Follow-up issues: none required before non-HN surfaces; HN posting waits on account readiness.
+- Follow-up issues: Show HN still requires a human-reviewed posting-account decision before public submission.
 
 ## Skeptical Visitor Review
 
@@ -44,7 +44,7 @@ Evidence:
 
 - `npm pack --dry-run`
 - `npm view launchframe-cli version dist-tags`
-- GitHub release `v0.1.0-beta.8`
+- GitHub release `v0.1.0-beta.9`
 - CI/Pages passing
 
 | Finding | Severity | Action |
@@ -79,11 +79,11 @@ Evidence:
 | What does validation actually validate? | Mostly required file structure and key org context fields in this beta. Copy now says this plainly. |
 | Is this launch automation or vote-seeking? | No. The templates explicitly prohibit vote solicitation and stop before public submit/post actions during rehearsal. |
 | What is the strongest proof? | Published npm package, clean `npx` scaffold/validate, dogfood launch evidence, GitHub release, live site, and Reddit pre-submit rehearsal. |
-| Is the posting account appropriate? | Not yet for HN. `aaronyetc` was just created and should not immediately post the launch. |
+| Is the posting account appropriate? | Human-reviewed account suitability is required before Show HN; `aaronyetc` should not post until it has normal account history or an established account is selected. |
 
 ## Go / No-Go
 
-Decision: conditional go.
+Decision: go.
 
 Go for:
 
@@ -93,10 +93,10 @@ Go for:
 - GitHub release.
 - Reddit pre-submit readiness.
 
-No-go for:
+Residual deferrals:
 
-- Show HN posting from `aaronyetc` immediately after account creation.
+- Show HN posting from `aaronyetc` immediately after account creation remains deferred unless a human reviewer approves account suitability.
 
-Required resolution before Show HN:
+Required check before Show HN:
 
 - Use an established human HN account, or wait until `aaronyetc` has normal account history and no longer looks like a throwaway launch account.

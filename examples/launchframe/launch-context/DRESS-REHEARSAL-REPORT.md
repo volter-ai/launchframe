@@ -10,7 +10,7 @@ Mode: live dress rehearsal up to final submit/post, with no public posting.
 |---|---|---|
 | Public install | `npx launchframe-cli init workspace` from a temp directory | Passed |
 | Workspace validation | `npx launchframe-cli validate workspace` from a temp directory | Passed |
-| npm package | `launchframe-cli@0.1.0-beta.8` | Published; `latest` and `beta` point to beta.8 |
+| npm package | `launchframe-cli@0.1.0-beta.9` | Published; `latest` and `beta` point to beta.9 |
 | Site | `https://launchframe.site/` | Live over HTTPS |
 | Startup Pilot page | `https://launchframe.site/startup-pilot.html` | Live over HTTPS |
 | GitHub repo | `https://github.com/volter-ai/launchframe` | Public |
