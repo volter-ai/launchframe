@@ -471,6 +471,15 @@ function validateOwnerAuthorizationMarkdown(root, org, failures) {
       failures.push(`00-owner-authorization.md missing credential provider: ${provider}`);
     }
   }
+  for (const [key, value] of Object.entries(org.owner_authorization?.allowed_side_effects || {})) {
+    if (typeof value !== 'boolean') continue;
+    const label = sideEffectLabel(key);
+    const expected = value ? 'yes' : 'no';
+    const pattern = new RegExp(`\\|[^\\n]*${label}[^\\n]*\\|\\s*${expected}\\s*\\|`, 'i');
+    if (!pattern.test(text)) {
+      failures.push(`00-owner-authorization.md side effect must match JSON: ${label}=${expected}`);
+    }
+  }
 }
 
 function validateOwnerApprovalGate(root, org, failures) {
@@ -523,11 +532,16 @@ function validateOwnerApprovalGate(root, org, failures) {
     }
   }
 
-  for (const row of markdownRows(text)) {
-    if (/^(License|Privacy|Terms|Telemetry\/data use|Security\/support)$/.test(row.cells[0] || '')) {
-      if (row.cells.slice(1).some((cell) => !cell || /approved \/ needs review|yes \/ no|verified \/ needs review/i.test(cell))) {
-        failures.push(`12-owner-approval-gate.md legal/trust row incomplete: ${row.cells[0]}`);
-      }
+  const legalRows = markdownRows(text);
+  const requiredLegalRows = ['License', 'Privacy', 'Terms', 'Telemetry/data use', 'Security/support'];
+  for (const name of requiredLegalRows) {
+    const row = legalRows.find((candidate) => candidate.cells[0] === name);
+    if (!row) {
+      failures.push(`12-owner-approval-gate.md missing legal/trust row: ${name}`);
+      continue;
+    }
+    if (row.cells.slice(1).some((cell) => !cell || /approved \/ needs review|yes \/ no|verified \/ needs review/i.test(cell))) {
+      failures.push(`12-owner-approval-gate.md legal/trust row incomplete: ${name}`);
     }
   }
 
@@ -545,7 +559,7 @@ function validateChannelReadiness(root, org, failures) {
   for (const label of ['Title:', 'URL:', 'Founder first comment:']) {
     if (!hasFilledLabel(showHn, label)) failures.push(`02-show-hn.md missing ${label}`);
   }
-  if (!/HN account suitability:\s*(?=.*(?:account|manual post|owner will post|u\/|user:))(?=.*(?:\d{4}-\d{2}-\d{2}|reviewed by|reviewer)).{12,}/i.test(showHn + '\n' + rehearsal)) {
+  if (!/HN account suitability:\s*(?=.*(?:account:\s*\S+|user:\s*\S+|u\/\S+|owner will post manually|manual-owner-post))(?=.*(?:\d{4}-\d{2}-\d{2}|reviewed by\s+\S+|reviewer:\s*\S+)).{12,}/i.test(showHn + '\n' + rehearsal)) {
     failures.push('Show HN readiness requires account suitability evidence');
   }
   if (!/Show HN pre-submit rehearsal:\s*(?=.*(?:screenshot|EVIDENCE|recorded|artifact|stopped before submit|pre-submit)).{12,}/i.test(showHn + '\n' + rehearsal)) {
@@ -657,6 +671,22 @@ function markdownRows(text) {
 
 function isConcreteEvidence(value) {
   return /(https?:\/\/|\/|\.\/|[A-Za-z]:\\|^gh\s|^npm\s|^npx\s|^curl\s|^rg\s|^python\s|^pytest\s|^docker\s|^helm\s|^kubectl\s|screenshot|artifact|sha256|digest|owner approval|release|registry|listing)/i.test(value);
+}
+
+function sideEffectLabel(key) {
+  const labels = {
+    read_public_sources: 'Read public sources',
+    inspect_local_source: 'Inspect local source',
+    create_local_files: 'Create local files',
+    create_remote_repo: 'Create remote repo',
+    publish_staging_package: 'Publish staging package/listing',
+    publish_public_package: 'Publish public package/listing',
+    buy_domain: 'Buy domain',
+    deploy_public_site: 'Deploy public site',
+    submit_marketplace_review: 'Submit marketplace/app review',
+    post_public_channels: 'Post to HN/Reddit/social'
+  };
+  return labels[key] || key.replaceAll('_', ' ');
 }
 
 function isMissing(value) {
