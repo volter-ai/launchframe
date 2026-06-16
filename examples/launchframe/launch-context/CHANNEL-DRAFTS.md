@@ -50,6 +50,12 @@ Primary target:
 r/opensource
 ```
 
+Flair:
+
+```text
+Promotional
+```
+
 Title:
 
 ```text

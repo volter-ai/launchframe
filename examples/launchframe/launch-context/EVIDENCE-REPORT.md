@@ -7,3 +7,4 @@
 | Notification | Tally self-email notification | Receipt confirmed |
 | Package target | `launchframe-cli@0.1.0-beta.5` | Published on npm with `beta` tag |
 | Repo target | `volter-ai/launchframe` | Clean OSS repo target |
+| Dress rehearsal | `DRESS-REHEARSAL-REPORT.md` | Live surfaces rehearsed; no public post submitted |
