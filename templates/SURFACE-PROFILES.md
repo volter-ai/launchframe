@@ -138,6 +138,7 @@ Recommended surfaces:
 
 - `docker`/`ghcr` required.
 - `helm` required if chart is advertised.
+- `kubernetes_operator` required for controller/operator launches.
 - `docs_site` required.
 - `trust_privacy` required if cluster data, cloud costs, credentials, metrics, or security claims are involved.
 
@@ -148,3 +149,24 @@ Required readiness:
 - Kind/k3d/minikube smoke.
 - RBAC/CRD review.
 - Cost/performance/security claims tied to reproducible evidence.
+
+### Local AI Desktop App
+
+Use for desktop apps that record audio/video, transcribe locally, run local AI models, store local notes, or make local-first/privacy claims.
+
+Recommended surfaces:
+
+- `github_release` required.
+- `local_ai_desktop` required.
+- `docs_site` recommended.
+- `trust_privacy` required.
+- `homebrew` optional unless advertised.
+
+Required readiness:
+
+- Model source/license/redistribution review.
+- Microphone/audio permission behavior.
+- Audio/transcript retention and deletion behavior.
+- Offline transcription proof before claiming local/offline operation.
+- Network-egress verification during recording/transcription.
+- Signing/notarization/checksum/install smoke from `desktop-release.md`.

@@ -9,6 +9,10 @@ Use when a selected `distribution_surfaces[]` entry has type `github_release`, `
 - Artifact names:
 - Install command or download URL:
 - Update channel:
+- Signing state: verified / not applicable / owner accepted unsigned / blocked
+- Notarization state: verified / not applicable / owner accepted unnotarized / blocked
+- Checksum state: verified / blocked
+- Clean install smoke state: verified / blocked
 
 ## Checks
 

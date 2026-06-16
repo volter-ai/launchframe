@@ -16,7 +16,7 @@ It is a template and validation system for launches that need more than a checkl
 - Repo/policy collateral templates for OSS releases.
 - HN, Reddit, outreach, asset, runbook, worklog, and retro docs.
 - Upfront owner authorization and final owner approval gate templates.
-- Surface profiles plus distribution-surface modules for npm, PyPI, Docker/GHCR, Helm, Figma Community, desktop releases, docs sites, and trust/privacy claims.
+- Surface profiles plus distribution-surface modules for npm, PyPI, Docker/GHCR, Helm, Kubernetes operators, Figma Community, desktop releases, local AI desktop apps, docs sites, and trust/privacy claims.
 - A validator that catches missing launch context, unresolved placeholders, and incomplete selected distribution surfaces before public posting.
 - An evidence report scaffold for commands, deploys, submissions, and owner confirmations.
 

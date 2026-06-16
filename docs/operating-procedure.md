@@ -30,7 +30,7 @@ Do not publish pricing, hosted-service, BYOK, telemetry, or enterprise claims un
 Check and reserve only the surfaces needed for the launch:
 
 - GitHub org/repo.
-- Selected distribution surfaces from `distribution_surfaces[]`: npm, PyPI, Docker/GHCR, Helm, Figma Community, GitHub Releases, Homebrew, docs site, website, trust/privacy, or other.
+- Selected distribution surfaces from `distribution_surfaces[]`: npm, PyPI, Docker/GHCR, Helm, Kubernetes operator, Figma Community, GitHub Releases, Homebrew, local AI desktop, docs site, website, trust/privacy, or other.
 - Domain.
 - Site hosting.
 - Capture form/CRM.

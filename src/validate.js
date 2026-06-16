@@ -32,8 +32,10 @@ const requiredWorkspaceFiles = [
   'surfaces/package-pypi.md',
   'surfaces/package-docker-ghcr.md',
   'surfaces/package-helm.md',
+  'surfaces/kubernetes-operator.md',
   'surfaces/marketplace-figma.md',
   'surfaces/desktop-release.md',
+  'surfaces/local-ai-desktop.md',
   'surfaces/docs-site.md',
   'surfaces/trust-privacy.md'
 ];
@@ -67,9 +69,11 @@ const surfaceTypes = new Set([
   'docker',
   'ghcr',
   'helm',
+  'kubernetes_operator',
   'figma_community',
   'github_release',
   'homebrew',
+  'local_ai_desktop',
   'docs_site',
   'website',
   'trust_privacy',
@@ -82,9 +86,11 @@ const readinessTemplateByType = {
   docker: 'surfaces/package-docker-ghcr.md',
   ghcr: 'surfaces/package-docker-ghcr.md',
   helm: 'surfaces/package-helm.md',
+  kubernetes_operator: 'surfaces/kubernetes-operator.md',
   figma_community: 'surfaces/marketplace-figma.md',
   github_release: 'surfaces/desktop-release.md',
   homebrew: 'surfaces/desktop-release.md',
+  local_ai_desktop: 'surfaces/local-ai-desktop.md',
   docs_site: 'surfaces/docs-site.md',
   website: 'surfaces/docs-site.md',
   trust_privacy: 'surfaces/trust-privacy.md'
@@ -123,9 +129,13 @@ export async function validateWorkspace(target, options = {}) {
     }
     validateOwnerAuthorization(org, failures);
     validateDistributionSurfaces(org, failures);
+    validateProfileRequiredSurfaces(org, failures);
+    validateClaimRiskSurfaces(org, failures);
     validateNoUnresolvedPlaceholders(root, filesForPlaceholderValidation(org), failures);
+    validateOwnerAuthorizationMarkdown(root, failures);
     validateSelectedSurfaceModules(root, org, failures);
     validateEvidenceReport(root, org, failures);
+    validateOwnerApprovalGate(root, org, failures);
   }
 
   const prereqs = readIfExists(join(root, '00-external-prereqs.md'));
@@ -148,6 +158,53 @@ export async function validateWorkspace(target, options = {}) {
   }
 
   return { root, warnings };
+}
+
+function validateProfileRequiredSurfaces(org, failures) {
+  const launchType = org.product?.launch_type;
+  const requiredTypes = requiredSurfaceTypesForLaunchType(launchType);
+  if (!requiredTypes.length) return;
+
+  const selected = requiredSurfaceTypes(org);
+  for (const requirement of requiredTypes) {
+    const options = Array.isArray(requirement) ? requirement : [requirement];
+    if (!options.some((type) => selected.has(type))) {
+      failures.push(`product.launch_type=${launchType} requires a required distribution surface of type: ${options.join(' or ')}`);
+    }
+  }
+}
+
+function requiredSurfaceTypesForLaunchType(launchType) {
+  if (launchType === 'marketplace_plugin') {
+    return ['figma_community', ['docs_site', 'website'], 'trust_privacy'];
+  }
+  if (launchType === 'kubernetes_operator') {
+    return [['docker', 'ghcr'], 'helm', 'kubernetes_operator', ['docs_site', 'website'], 'trust_privacy'];
+  }
+  if (launchType === 'desktop_app') {
+    return ['github_release', ['docs_site', 'website'], 'trust_privacy'];
+  }
+  return [];
+}
+
+function validateClaimRiskSurfaces(org, failures) {
+  const selected = requiredSurfaceTypes(org);
+  const riskValues = [
+    ...Object.values(org.claim_risk || {}),
+    ...Object.values(org.claim_risk_profile || {})
+  ].filter((value) => typeof value === 'string');
+  const needsTrust = riskValues.some((value) => ['high', 'verified', 'owner_approval_required', 'blocked'].includes(value));
+  if (needsTrust && !selected.has('trust_privacy')) {
+    failures.push('high or approval-required claim risk requires a required trust_privacy distribution surface');
+  }
+}
+
+function requiredSurfaceTypes(org) {
+  return new Set(
+    (org.distribution_surfaces || [])
+      .filter((surface) => surface.scope === 'required')
+      .map((surface) => surface.type)
+  );
 }
 
 function validateDistributionSurfaces(org, failures) {
@@ -253,6 +310,9 @@ function validateSelectedSurfaceModules(root, org, failures) {
     if (text.includes('- [ ]')) {
       failures.push(`required surface module still has unchecked readiness items: ${template}`);
     }
+    if (text.includes('- [x] ')) {
+      failures.push(`required surface module uses plain [x]; use [x] verified, [x] owner-approved out of scope, or [x] blocked: ${template}`);
+    }
     if (/\|\s*\|\s*\|\s*\|/.test(text)) {
       failures.push(`required surface module has empty evidence rows: ${template}`);
     }
@@ -272,8 +332,42 @@ function validateEvidenceReport(root, org, failures) {
 
   const requiredSurfaces = (org.distribution_surfaces || []).filter((surface) => surface.scope === 'required');
   for (const surface of requiredSurfaces) {
-    if (!text.includes(surface.id) && !text.includes(surface.name)) {
+    const line = text.split('\n').find((candidate) => candidate.includes(surface.id) || candidate.includes(surface.name));
+    if (!line) {
       failures.push(`EVIDENCE-REPORT.md missing required surface evidence: ${surface.id}`);
+      continue;
+    }
+    if (/\b(TBD|TODO)\b/i.test(line) || /\|\s*(done|yes|n\/a|na)\s*\|/i.test(line)) {
+      failures.push(`EVIDENCE-REPORT.md has weak evidence for required surface: ${surface.id}`);
+    }
+  }
+}
+
+function validateOwnerAuthorizationMarkdown(root, failures) {
+  const text = readIfExists(join(root, '00-owner-authorization.md'));
+  for (const label of ['- Status:', '- Approver:', '- Date:', '- Launch mode authorized:', '- Final approver for irreversible public actions:']) {
+    if (!hasFilledLabel(text, label)) failures.push(`00-owner-authorization.md missing ${label}`);
+  }
+  if (hasBlankMarkdownRows(text)) failures.push('00-owner-authorization.md has blank table rows');
+}
+
+function validateOwnerApprovalGate(root, org, failures) {
+  const text = readIfExists(join(root, '12-owner-approval-gate.md'));
+  for (const label of ['- Requested decision:', '- Approver:', '- Date:', '- Scope approved:', '- Final verdict:', '- Owner approval record:']) {
+    if (!hasFilledLabel(text, label)) failures.push(`12-owner-approval-gate.md missing ${label}`);
+  }
+  if (!/- Final verdict:\s*(go|conditional go|no-go)\b/i.test(text)) {
+    failures.push('12-owner-approval-gate.md final verdict must be go, conditional go, or no-go');
+  }
+  if (hasBlankMarkdownRows(text)) failures.push('12-owner-approval-gate.md has blank table rows');
+  if (/\|\s*(agent \/ owner|yes \/ no|ready \/ blocked|verified \/ owner-approved|approved \/ needs review)/.test(text)) {
+    failures.push('12-owner-approval-gate.md still has unresolved choice text in tables');
+  }
+
+  const requiredSurfaces = (org.distribution_surfaces || []).filter((surface) => surface.scope === 'required');
+  for (const surface of requiredSurfaces) {
+    if (!text.includes(surface.id) && !text.includes(surface.name)) {
+      failures.push(`12-owner-approval-gate.md missing required surface: ${surface.id}`);
     }
   }
 }
@@ -305,14 +399,35 @@ function validateNoUnresolvedPlaceholders(root, files, failures) {
 }
 
 function findUnresolved(text) {
+  const searchable = stripFencedCode(text);
   const patterns = [
     /<[^>\n]+>/,
     /\bTBD\b/,
     /\bTODO\b/,
     /\[ \] Owner approval packet reviewed/
   ];
-  const match = patterns.map((pattern) => text.match(pattern)).find(Boolean);
+  const match = patterns.map((pattern) => searchable.match(pattern)).find(Boolean);
   return match ? match[0] : '';
+}
+
+function stripFencedCode(text) {
+  return text.replace(/```[\s\S]*?```/g, '');
+}
+
+function hasFilledLabel(text, label) {
+  const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const match = text.match(new RegExp(`^${escaped}\\s*(.+)$`, 'm'));
+  return Boolean(match && match[1].trim() && !findUnresolved(match[1]) && !/^(yes \/ no|approve launch as-is|go \/ conditional go|tabletop dry run \/)/i.test(match[1].trim()));
+}
+
+function hasBlankMarkdownRows(text) {
+  return text
+    .split('\n')
+    .filter((line) => line.trim().startsWith('|') && !line.includes('---'))
+    .some((line) => {
+      const cells = line.split('|').slice(1, -1).map((cell) => cell.trim());
+      return cells.length > 1 && cells.every((cell) => cell === '');
+    });
 }
 
 function isMissing(value) {

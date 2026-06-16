@@ -138,7 +138,7 @@
   "distribution_surfaces": [
     {
       "id": "primary_package",
-      "type": "<npm|pypi|docker|ghcr|helm|figma_community|github_release|homebrew|docs_site|website|trust_privacy|other>",
+      "type": "<npm|pypi|docker|ghcr|helm|kubernetes_operator|figma_community|github_release|homebrew|local_ai_desktop|docs_site|website|trust_privacy|other>",
       "scope": "required",
       "name": "<package/listing/artifact/site name>",
       "registry_or_host": "<registry/listing/host URL or null>",

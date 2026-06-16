@@ -59,6 +59,18 @@ Use this when the product touches finance, accounting, tax, legal, health, compl
 - [ ] Copy avoids "tax-ready", "compliant", "financially accurate", "audit-proof", or similar without owner/legal approval and evidence.
 - [ ] Retention, deletion, local storage, and network behavior are verified or downgraded.
 
+## Kubernetes / Cost Observability Review
+
+Use this when the product estimates, allocates, reports, or optimizes infrastructure/cloud/Kubernetes cost.
+
+- [ ] Pricing source is recorded with date and provider/version.
+- [ ] Allocation model is described: requests, limits, actual usage, billing export, metrics, tags, namespaces, labels, or other.
+- [ ] Idle/shared cost handling is documented.
+- [ ] Currency, region, time window, and rounding assumptions are listed.
+- [ ] Supported providers/clusters are stated.
+- [ ] Known inaccuracies and blind spots are listed.
+- [ ] Copy avoids "accurate cloud costs", "billing-grade", "audit-proof", or "saves X%" without reproducible evidence and owner approval.
+
 ## Network Verification Examples
 
 Record at least one applicable method, or mark the claim not verified and weaken copy.

@@ -32,8 +32,10 @@ const providerFiles = [
   'package-pypi.md',
   'package-docker-ghcr.md',
   'package-helm.md',
+  'kubernetes-operator.md',
   'marketplace-figma.md',
   'desktop-release.md',
+  'local-ai-desktop.md',
   'docs-site.md',
   'trust-privacy.md'
 ];
