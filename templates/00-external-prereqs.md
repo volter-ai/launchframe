@@ -41,11 +41,20 @@ Run this before making external changes.
 - [ ] `git status --short` reviewed.
 - [ ] Unrelated dirty files recorded and excluded from launch commits.
 - [ ] Commit/checkpoint cadence selected: every material pass / every external side effect / every visual pass.
-- [ ] `.env` exists locally and is ignored.
+- [ ] Product launch repo has its own local ignored `.env`.
+- [ ] Any shared operator secret source is documented by path, but not treated as the launch repo's credential source of truth.
 - [ ] No secret values appear in staged diffs.
 - [ ] Shell is using the expected credential source for each provider.
 - [ ] Temp credential files, if needed, have a deletion plan before the command is run.
 - [ ] The operator has approved the current mode and its allowed side effects.
+
+Credential placement rule:
+
+- Put launch credentials in the active launch repo's ignored `.env`.
+- Commit only `.env.example` with variable names and comments.
+- Do not leave a launch depending on another product repo's `.env`; that creates invisible coupling and causes agents to use the wrong shell state.
+- A shared local vault can be used as an input source, but copy or export the needed values into the active repo before launch verification.
+- Never commit real token values, screenshots of token values, or generated temporary npmrc files.
 
 ### Signed-In Browser / Account Console Access
 
@@ -102,6 +111,7 @@ gh repo view <owner>/<repo>
 Verification:
 
 ```sh
+set -a; source .env; set +a
 npm whoami
 npm config get registry
 npm view <package> name version --json
@@ -115,10 +125,12 @@ Important token rule:
 - The token used by `npm publish` must be present in the shell as `NPM_TOKEN`/`NODE_AUTH_TOKEN` or in `.npmrc`.
 - If `.npmrc` contains a different token than the bypass token, publish can still fail with a 2FA/bypass-token error even when `npm whoami` succeeds.
 - Prefer an isolated temporary userconfig for publish verification so stale global/user `.npmrc` tokens cannot shadow the intended token.
+- Before publish, verify that the token loaded from the active repo `.env` is the token being used. `npm whoami` alone is insufficient.
 
 Headless publish:
 
 ```sh
+set -a; source .env; set +a
 printf "//registry.npmjs.org/:_authToken=%s\nregistry=https://registry.npmjs.org/\n" "$NPM_TOKEN" > /tmp/<product>-npmrc
 npm publish --userconfig=/tmp/<product>-npmrc --registry=https://registry.npmjs.org --access public --tag <tag>
 rm -f /tmp/<product>-npmrc

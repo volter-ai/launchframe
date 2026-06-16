@@ -3,6 +3,7 @@ import { join, resolve } from 'node:path';
 import { templatesRoot } from './paths.js';
 
 const scaffoldFiles = [
+  '.env.example',
   '00-org-context.json',
   '00-brand-context.md',
   '00-master-checklist.md',
@@ -53,4 +54,3 @@ async function assertEmptyOrMissing(targetDir) {
     throw error;
   }
 }
-
