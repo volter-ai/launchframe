@@ -41,4 +41,3 @@ export async function run(args) {
 
   throw new Error(`Unknown command: ${command}\n\n${usage.trim()}`);
 }
-

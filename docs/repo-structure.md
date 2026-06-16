@@ -7,6 +7,7 @@ Launchframe separates the reusable product from its dogfood output.
 | `bin/` | CLI entrypoint exposed by npm. |
 | `src/` | Scaffold, validation, and evidence command implementation. |
 | `templates/` | Reusable launch workspace templates. |
+| `templates/surfaces/` | Distribution-surface readiness modules for registries, marketplaces, releases, and docs. |
 | `docs/` | Operating procedure, repo quality, visual workflow, UI makeover, and readiness review docs. |
 | `examples/launchframe/` | The Launchframe dogfood launch output. |
 

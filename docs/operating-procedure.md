@@ -4,7 +4,15 @@ Use this sequence when launching an OSS developer tool with HN as the primary ch
 
 ## 1. Intake
 
-Fill `00-org-context.json` and `00-brand-context.md` before writing launch copy or buying surfaces. The workspace must know the legal operator, product name, package target, repo target, website target, support/security paths, launch objective, and claims that are already true.
+Fill `00-owner-authorization.md`, `00-org-context.json`, and `00-brand-context.md` before writing launch copy or buying surfaces. The workspace must know the legal operator, product name, launch type, selected distribution surfaces, repo target, website target, support/security paths, launch objective, allowed side effects, credential paths, and claims that are already true.
+
+The intended autonomy model is:
+
+1. Initial owner authorization.
+2. Agent autonomous preparation to pre-submit/pre-publish state.
+3. Final owner approval packet in `12-owner-approval-gate.md`.
+
+Do not interrupt the owner piecemeal when a safe weaker claim or reversible default exists.
 
 ## 2. Landscape Research
 
@@ -22,7 +30,7 @@ Do not publish pricing, hosted-service, BYOK, telemetry, or enterprise claims un
 Check and reserve only the surfaces needed for the launch:
 
 - GitHub org/repo.
-- npm package name.
+- Selected distribution surfaces from `distribution_surfaces[]`: npm, PyPI, Docker/GHCR, Helm, Figma Community, GitHub Releases, Homebrew, docs site, website, or other.
 - Domain.
 - Site hosting.
 - Capture form/CRM.
@@ -34,7 +42,7 @@ Record every external action in `00-external-prereqs.md`.
 
 The README and launch copy must lead with a falsifiable demo. For a CLI, this usually means a command that succeeds or fails in a way that proves the central claim.
 
-Do not launch until the install command works from a clean environment.
+Do not launch until every required distribution surface has a clean verification path recorded in its `surfaces/` module.
 
 ## 5. Repo Quality
 
@@ -85,6 +93,8 @@ launchframe evidence .
 
 Then verify public deployed state, package install, capture, policy/trust docs, and launch-day runbook.
 
+Normal validation should fail if required placeholders remain. Use `--template` only to validate an unfilled scaffold or template pack.
+
 ## 11. Adversarial Review
 
 Before public posting, run `11-adversarial-review.md` as a skeptical reviewer. Try to disprove or weaken the launch:
@@ -100,4 +110,4 @@ Fix issues, downgrade claims, or record blockers before proceeding.
 
 ## 12. Launch Day
 
-The founder/operator should be available for replies. Log what was posted, when, what changed, and what feedback should update the product or templates.
+Before irreversible actions, complete `12-owner-approval-gate.md`. The founder/operator should be available for replies. Log what was posted, when, what changed, and what feedback should update the product or templates.

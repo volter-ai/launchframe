@@ -6,11 +6,13 @@ Use this file as the live launch dashboard, not as the full historical log. Keep
 
 Primary context files:
 
+- `00-owner-authorization.md` — upfront human authority, allowed side effects, credential paths, claim boundaries, and selected distribution surfaces.
 - `00-org-context.json` — structured org, product, surface, policy, launch, and verification facts.
 - `00-brand-context.md` — narrative brand, positioning, voice, visual, and channel context.
 - `00-external-prereqs.md` — credentials, sign-ins, publish tokens, registrar keys, and purchase approval gates.
 - `01-business-model-research.md` — sourced comparable products, business models, pricing, BYOK/self-host posture, and monetization implications.
 - `11-adversarial-review.md` — skeptical repo, product, claim, install, trust, and launch-channel review before public posting.
+- `12-owner-approval-gate.md` — final single human review packet before irreversible public actions.
 - `PENDING.md` — running queue for owner questions, sent questions, external waits, operational blockers, and defaulted assumptions.
 
 ## 0. Current Launch Dashboard
@@ -22,6 +24,7 @@ Update this section continuously. It should answer "can we launch, what is block
 - Link target:
 - Package/install target:
 - Site target:
+- Selected distribution surfaces:
 - Public posting status: not started / scheduled / posted
 - Next three actions:
   1.
@@ -43,6 +46,7 @@ Every external surface must be marked `required`, `optional`, or `out of scope` 
 | Surface | Scope | Chosen provider/value | Why | Current state |
 |---|---|---|---|---|
 | Repo | required |  |  |  |
+| Distribution surfaces | required / optional / out of scope |  |  |  |
 | Package registry | required / optional / out of scope |  |  |  |
 | Website hosting | required / optional / out of scope |  |  |  |
 | Custom domain | required / optional / out of scope |  |  |  |
@@ -69,11 +73,13 @@ Summarize only the latest proof. Put full command output and retries in `00-exte
 
 Do this before strategy, launch copy, site work, domain purchase, package reservation, or community setup.
 
+- [ ] `00-owner-authorization.md` exists and defines allowed side effects, credential paths, claim boundaries, and selected surfaces.
 - [ ] `00-org-context.json` exists and contains factual org/product/surface/policy fields.
 - [ ] `00-brand-context.md` exists and contains positioning, voice, visual direction, and launch narrative.
 - [ ] `00-external-prereqs.md` exists and records external account/credential readiness.
 - [ ] `PENDING.md` exists and tracks active owner/external/ops/defaulted waits.
 - [ ] Owner has reviewed the context files or unresolved fields are marked as blockers.
+- [ ] `distribution_surfaces[]` is filled in `00-org-context.json`; each selected surface has a matching `surfaces/` module.
 
 ### Execution Preflight
 
@@ -91,6 +97,7 @@ Do this before any real external side effect: domain purchase, DNS change, repo 
 ### Product Source
 
 - Product name / working codename:
+- Launch type: CLI / library / web app / desktop app / Kubernetes operator / docs site / marketplace plugin / other
 - One-sentence founder description:
 - Target users:
 - Primary launch objective: mindshare / installs / contributors / design partners / pipeline / other
@@ -100,6 +107,7 @@ Do this before any real external side effect: domain purchase, DNS change, repo 
 - Existing README path:
 - Existing demo/screenshots path:
 - Existing package registry URL:
+- Distribution surfaces and verification commands:
 - Existing website URL:
 - License:
 - Business model: free OSS / open-core / hosted cloud / enterprise self-host / paid SaaS / services / unknown
@@ -121,6 +129,7 @@ Do this before any real external side effect: domain purchase, DNS change, repo 
 - GitHub repo target:
 - Package manager target: npm / PyPI / Cargo / Homebrew / Docker / other
 - Package name target:
+- Distribution surface modules required: npm / PyPI / Docker-GHCR / Helm / Figma Community / desktop release / docs site / trust/privacy / other
 - Domain target:
 - Registrar:
 - Hosting provider:
@@ -181,6 +190,7 @@ Fill these from `00-org-context.json` and `00-brand-context.md`.
 
 ## 3. Readiness Gates
 
+- [ ] Initial owner authorization is complete, including allowed side effects and final approver.
 - [ ] Comparable business-model research is complete and cites primary sources where possible.
 - [ ] Pricing, free tier, self-host, BYOK, hosted, and enterprise claims are sourced or marked unknown.
 - [ ] Public launch copy does not invent monetization, pricing, hosted-service, or free/self-host claims.
@@ -189,6 +199,7 @@ Fill these from `00-org-context.json` and `00-brand-context.md`.
 - [ ] Startup Pilot capture is low-friction: email required, "how did you hear about us?" optional by default; role and qualification questions happen after capture unless explicitly approved.
 - [ ] One-command install works on a clean machine.
 - [ ] One-command demo proves the central claim.
+- [ ] Every required distribution surface has a completed surface module and recorded evidence.
 - [ ] UI demo is recorded from a reproducible Playwright/browser flow, if a UI is part of the proof.
 - [ ] Public package/repo is scrubbed of private data and secrets.
 - [ ] README explains the product, mechanism, install, and demo in the first screen.
@@ -199,11 +210,13 @@ Fill these from `00-org-context.json` and `00-brand-context.md`.
 - [ ] Discord/community links and conduct/enforcement paths are real if a community is advertised.
 - [ ] CI proves the core claim or failure mode.
 - [ ] Founder/operator is available for 4-6 hours after posting.
+- [ ] Final `12-owner-approval-gate.md` packet is complete before irreversible actions.
 
 ## 4. Surfaces
 
 - [ ] Domain checked/purchased/configured.
-- [ ] Package name checked/reserved.
+- [ ] Selected distribution surfaces checked/reserved/prepared.
+- [ ] Package/listing/artifact names checked/reserved.
 - [ ] GitHub repo/org target checked.
 - [ ] Social handles checked/reserved.
 - [ ] Discord/community created or deferred.
@@ -258,6 +271,8 @@ Run before dress rehearsal and again after any major claim, README, package, or 
 - [ ] Skeptical README review: can a visitor understand what it is, how it works, and what proof exists within one screen?
 - [ ] Cold install review: does a clean install work exactly as documented?
 - [ ] Package contents review: does npm include only intended files and no secrets/private artifacts?
+- [ ] Surface-specific review: each selected module under `surfaces/` has evidence and no unsupported claims.
+- [ ] Trust/privacy review: sensitive-data, local-first, telemetry, security, compliance, finance/legal/health, and professional-advice claims are evidenced, weakened, or blocked.
 - [ ] Claim review: every public claim maps to repo behavior, docs, or recorded evidence.
 - [ ] Trust review: license, security, privacy, terms, telemetry, support, and issue paths are present and not overclaimed.
 - [ ] HN objection review: "Why not a checklist?", "Is this process theater?", "What does validation really validate?", "Is this launch automation or vote-seeking?"
@@ -300,7 +315,7 @@ Run the same day or immediately before public posting.
 - [ ] Execute H-90 through H+60, including filling live posting forms, without clicking final submit/post.
 - [ ] Confirm operator availability for 4-6 hours after real posting.
 - [ ] Confirm only critical fixes will be made after posting.
-- [ ] Make final go/no-go decision.
+- [ ] Complete `12-owner-approval-gate.md` and make final go/no-go decision.
 
 ### Real Launch
 

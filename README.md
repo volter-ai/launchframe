@@ -15,13 +15,15 @@ It is a template and validation system for launches that need more than a checkl
 - A structured launch workspace with strongly named context files.
 - Repo/policy collateral templates for OSS releases.
 - HN, Reddit, outreach, asset, runbook, worklog, and retro docs.
-- A validator that catches missing launch context before public posting.
+- Upfront owner authorization and final owner approval gate templates.
+- Distribution-surface modules for npm, PyPI, Docker/GHCR, Helm, Figma Community, desktop releases, docs sites, and trust/privacy claims.
+- A validator that catches missing launch context, unresolved placeholders, and incomplete selected distribution surfaces before public posting.
 - An evidence report scaffold for commands, deploys, submissions, and owner confirmations.
 
 ## What It Does Not Do
 
 - It does not submit posts, automate comments, solicit votes, or manage engagement.
-- It does not verify the truth of every claim automatically; validation is mostly structural in this beta.
+- It does not verify the truth of every claim automatically; evidence and owner approval still have to be recorded.
 - It does not replace owner/legal review for privacy, terms, security, or commercial claims.
 - It does not make a launch successful by itself. It makes the work easier to reconstruct, review, and rehearse.
 
@@ -33,12 +35,15 @@ launchframe validate <dir>
 launchframe evidence <dir>
 ```
 
+`launchframe validate <dir>` is a readiness check and fails on unresolved placeholders in required gate files and selected distribution surfaces. Use `--template` only when validating an unfilled scaffold or template pack.
+
 ## Repository Layout
 
 ```text
 bin/                  CLI entrypoint
 src/                  scaffold, validate, and evidence commands
 templates/            reusable launch workspace templates
+templates/surfaces/   distribution-surface readiness modules
 docs/                 operating procedure, repo quality, visual, and UI makeover docs
 examples/launchframe/ dogfood launch output for Launchframe itself
 ```

@@ -9,7 +9,8 @@ Run this as a skeptical reviewer before public posting. The goal is to find the 
 - Product/version:
 - Launch mode:
 - Public link target:
-- Install command:
+- Launch type:
+- Selected distribution surfaces:
 
 ## Summary
 
@@ -33,13 +34,12 @@ Findings:
 |---|---|---|
 | | blocker / high / medium / low | fix / downgrade claim / record blocker / accept |
 
-## Cold Install And Demo Review
+## Cold Install / Access And Demo Review
 
-Run from a clean temp directory.
+Run the verification command for every selected `distribution_surfaces[]` entry. For npm this may be `npx`; for PyPI use a clean virtualenv; for Docker/GHCR pull and run the image; for Helm use `helm lint/template/install`; for desktop artifacts use download/install checks; for marketplaces verify listing/review state.
 
 ```sh
-npx <package> init workspace
-npx <package> validate workspace
+<surface verification command>
 ```
 
 - [ ] Install command works.
@@ -55,11 +55,17 @@ Findings:
 
 ## Package And Repo Contents Review
 
-- [ ] npm/package archive contains intended files only.
+- [ ] Package/listing/artifact/archive contains intended files only.
 - [ ] No `.env`, tokens, private notes, screenshots of secrets, or irrelevant product artifacts are included.
 - [ ] Public repo has license, security policy, contribution path, and issue templates.
 - [ ] Public repo has no internal-only URLs or stale package names.
 - [ ] GitHub release/tag state matches package version.
+
+Selected surface modules reviewed:
+
+| Surface | Module | Evidence | Verdict |
+|---|---|---|---|
+| | `surfaces/...` | | ready / blocked / out of scope |
 
 Findings:
 
@@ -85,6 +91,16 @@ Common claims to challenge:
 - "Validated"
 - "OSS"
 - "One-command install"
+- "Fast"
+- "Accessible"
+- "Secure"
+- "Encrypted"
+- "Private"
+- "Production-ready"
+- "Enterprise"
+- "Compliance"
+
+Automatic downgrade rule: if evidence is missing, weaken the claim or mark it blocked. Do not escalate to the owner until safe defaults and weaker wording are exhausted.
 
 ## Trust And Policy Review
 

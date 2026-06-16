@@ -22,8 +22,12 @@
     "working_name": "<Product>",
     "public_name": "<Product>",
     "one_sentence_description": "<What it is, for whom, and why it matters>",
+    "launch_type": "<cli|library|web_app|desktop_app|kubernetes_operator|docs_site|marketplace_plugin|other>",
     "launch_objective": "<mindshare|installs|contributors|design_partners|pipeline|other>",
     "launch_scope": "<what is included in this launch>",
+    "project_mechanism": "<how it works in concrete product terms>",
+    "primary_user": "<specific user profile>",
+    "core_falsifiable_claim": "<claim the demo can prove>",
     "launch_version": "<version>",
     "current_public_state": "<private|public|partially_public>",
     "license_spdx": "<MIT|Apache-2.0|BSD-3-Clause|...>",
@@ -55,6 +59,53 @@
     "payments_enabled": false,
     "ai_data_usage": "<none|describe verified behavior>"
   },
+  "claim_risk_profile": {
+    "performance_claims": "<none|verified|owner_approval_required|blocked>",
+    "security_claims": "<none|verified|owner_approval_required|blocked>",
+    "privacy_claims": "<none|verified|owner_approval_required|blocked>",
+    "accessibility_claims": "<none|verified|owner_approval_required|blocked>",
+    "compliance_claims": "<none|verified|owner_approval_required|blocked>",
+    "finance_legal_health_claims": "<none|verified|owner_approval_required|blocked>",
+    "enterprise_or_production_claims": "<none|verified|owner_approval_required|blocked>",
+    "claim_downgrade_notes": "<which words are forbidden or weakened>"
+  },
+  "owner_authorization": {
+    "authorization_status": "<not_requested|approved|approved_with_limits|rejected>",
+    "allowed_side_effects": {
+      "read_public_sources": true,
+      "inspect_local_source": true,
+      "create_local_files": true,
+      "create_remote_repo": "<true|false>",
+      "publish_staging_package": "<true|false>",
+      "publish_public_package": "<true|false>",
+      "buy_domain": "<true|false>",
+      "max_domain_spend_usd": "<number or null>",
+      "deploy_public_site": "<true|false>",
+      "submit_marketplace_review": "<true|false>",
+      "post_public_channels": false
+    },
+    "credential_paths": [
+      {
+        "provider": "<github|npm|pypi|docker|ghcr|figma|registrar|hosting|other>",
+        "path": "<ignored local env, signed browser profile, or manual owner step>",
+        "usable_by_agent": "<true|false>",
+        "notes": "<scope and limitations>"
+      }
+    ],
+    "claim_boundaries": {
+      "must_not_claim": [],
+      "requires_owner_approval": [
+        "pricing",
+        "roadmap",
+        "security",
+        "privacy",
+        "compliance",
+        "performance",
+        "enterprise readiness"
+      ],
+      "automatic_downgrade_rule": "If evidence is missing, weaken the claim or mark it blocked instead of asking piecemeal."
+    }
+  },
   "source_of_truth": {
     "local_repo_path": "<absolute local path>",
     "online_repo_url": "<https://github.com/org/repo>",
@@ -83,6 +134,33 @@
     "slack_url": "<URL or null>",
     "hn_account": "<username or null>",
     "newsletter_or_blog_url": "<URL or null>"
+  },
+  "distribution_surfaces": [
+    {
+      "id": "primary_package",
+      "type": "<npm|pypi|docker|ghcr|helm|figma_community|github_release|homebrew|docs_site|website|trust_privacy|other>",
+      "scope": "required",
+      "name": "<package/listing/artifact/site name>",
+      "registry_or_host": "<registry/listing/host URL or null>",
+      "install_or_access_command": "<install/access command or URL>",
+      "verification_command": "<clean verification command>",
+      "expected_result": "<observable pass condition>",
+      "credential_provider": "<provider or none>",
+      "async_review_state": "<not_applicable|not_submitted|submitted|changes_requested|approved|published>",
+      "side_effect_required": "<none|reserve|publish_staging|publish_public|submit_review|deploy_public>",
+      "current_state": "<not_started|prepared|verified|published|blocked|out_of_scope>",
+      "readiness_template": "<surfaces/package-npm.md or matching module>"
+    }
+  ],
+  "claim_risk": {
+    "security": "<none|low|high>",
+    "privacy": "<none|low|high>",
+    "encryption": "<none|low|high>",
+    "performance": "<none|low|high>",
+    "accessibility": "<none|low|high>",
+    "compliance": "<none|low|high>",
+    "finance_legal_health": "<none|low|high>",
+    "automatic_rule": "High-risk claims require evidence or explicit owner approval; otherwise weaken or remove."
   },
   "policy_docs": {
     "license_path": "<LICENSE>",

@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "check": "node bin/launchframe.js validate templates --template",
-    "smoke": "node bin/launchframe.js init /tmp/launchframe-smoke --force && node bin/launchframe.js validate /tmp/launchframe-smoke"
+    "smoke": "node bin/launchframe.js init /tmp/launchframe-smoke --force && node bin/launchframe.js validate /tmp/launchframe-smoke --template"
   },
   "keywords": [
     "launch",

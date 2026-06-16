@@ -4,6 +4,7 @@ import { packageRoot, templatesRoot } from './paths.js';
 
 const scaffoldFiles = [
   '.env.example',
+  '00-owner-authorization.md',
   '00-org-context.json',
   '00-brand-context.md',
   '00-master-checklist.md',
@@ -20,8 +21,20 @@ const scaffoldFiles = [
   '09-retro.md',
   '10-worklog.md',
   '11-adversarial-review.md',
+  '12-owner-approval-gate.md',
   'OWNER-QUESTIONS.md',
   'PENDING.md'
+];
+
+const providerFiles = [
+  'package-npm.md',
+  'package-pypi.md',
+  'package-docker-ghcr.md',
+  'package-helm.md',
+  'marketplace-figma.md',
+  'desktop-release.md',
+  'docs-site.md',
+  'trust-privacy.md'
 ];
 
 const playbookFiles = [
@@ -46,6 +59,10 @@ export async function scaffoldWorkspace(target, options = {}) {
   }
   await cp(join(templatesRoot, 'repo'), join(targetDir, 'repo'), { recursive: true });
   await cp(join(templatesRoot, 'policies'), join(targetDir, 'repo', 'docs'), { recursive: true });
+  await mkdir(join(targetDir, 'surfaces'), { recursive: true });
+  for (const file of providerFiles) {
+    await cp(join(templatesRoot, 'surfaces', file), join(targetDir, 'surfaces', file));
+  }
   await mkdir(join(targetDir, 'playbook'), { recursive: true });
   for (const file of playbookFiles) {
     await cp(join(packageRoot, 'docs', file), join(targetDir, 'playbook', file));
