@@ -2,7 +2,7 @@
 
 Reviewer: Codex
 Date: 2026-06-16
-Product/version: Launchframe `0.1.0-beta.6`
+Product/version: Launchframe `0.1.0-beta.7`
 Launch mode: public beta prep, no public HN/Reddit post submitted
 Public link target: `https://github.com/volter-ai/launchframe`
 Install command: `npx launchframe-cli init my-launch`
@@ -44,7 +44,7 @@ Evidence:
 
 - `npm pack --dry-run`
 - `npm view launchframe-cli version dist-tags`
-- GitHub release `v0.1.0-beta.6`
+- GitHub release `v0.1.0-beta.7`
 - CI/Pages passing
 
 | Finding | Severity | Action |

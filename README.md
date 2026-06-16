@@ -57,4 +57,4 @@ The root of this repo is the reusable OSS product. `examples/launchframe/` is th
 
 ## Status
 
-`0.1.0-beta.6` is the first public-beta scaffold. The included dogfood example shows Launchframe being used to launch Launchframe.
+`0.1.0-beta.7` is the current public-beta scaffold. The included dogfood example shows Launchframe being used to launch Launchframe.
