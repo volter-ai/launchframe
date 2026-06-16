@@ -4,7 +4,7 @@
   "description": "OSS launch-control workspaces for developer-tool launches.",
   "type": "module",
   "bin": {
-    "launchframe": "./bin/launchframe.js"
+    "launchframe": "bin/launchframe.js"
   },
   "files": [
     "bin/",
