@@ -21,6 +21,10 @@ Launchframe uses a low-friction Tally capture form:
 - No payment collected in the form.
 - Self-email notification to the operator verified.
 
+## Launch Day
+
+Public beta launch day is Wednesday, 2026-06-17. The exact Show HN posting hour can be selected that day based on operator availability.
+
 ## Claim
 
 Launchframe turns scattered launch work into a structured, auditable workspace with templates, validation, evidence, and a launch-day runbook.

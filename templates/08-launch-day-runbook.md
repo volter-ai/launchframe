@@ -22,21 +22,62 @@ Hard rule: never solicit upvotes.
 
 ## T-1 Day
 
+- [ ] Tabletop dry run.
 - [ ] Cold-machine dress rehearsal.
 - [ ] Finalize HN title and first comment.
 - [ ] Finalize social and Reddit drafts.
 - [ ] Confirm launch window.
+- [ ] Run launch-day simulation against live surfaces without posting publicly.
+
+## Tabletop Dry Run
+
+Run this before touching external systems. The goal is to find missing steps, credentials, owners, and fallback paths while the cost of correction is still low.
+
+- [ ] Read this runbook top to bottom.
+- [ ] Confirm exact launch mode: tabletop dry run / live dress rehearsal / public launch.
+- [ ] Confirm required surfaces and out-of-scope surfaces.
+- [ ] Confirm credential paths without printing secret values.
+- [ ] Confirm go/no-go criteria.
+- [ ] Confirm rollback notes for broken install, broken site, broken capture, bad bug, or accidental leak.
+- [ ] Record gaps in `PENDING.md`.
+
+## Live Dress Rehearsal
+
+Run against real deployed surfaces, but do not submit public posts.
+
+- [ ] Run clean install from a temp directory.
+- [ ] Run the demo or validation command from a temp directory.
+- [ ] Open live site, npm/package page, GitHub repo, CI, issues, docs, security policy, and capture form.
+- [ ] Verify capture notification path or recheck prior evidence.
+- [ ] Open HN, Reddit, and social copy as drafts only.
+- [ ] Walk through first-hour monitoring: public post, comments, issues, install path, site uptime, capture notifications.
+- [ ] Commit fixes before moving to real launch.
+
+## Launch-Day Simulation
+
+Run this before the real public post. Use live repo/site/package/capture links, but do not submit HN/Reddit/social posts.
+
+- [ ] Pick a simulated post time and assign one operator.
+- [ ] Run clean install and demo from a temp directory.
+- [ ] Open final HN title, URL, and first comment in draft form.
+- [ ] Open Reddit/social drafts in draft form.
+- [ ] Verify site, package, repo, issue tracker, security docs, and capture form.
+- [ ] Verify notification path for signup/capture.
+- [ ] Walk through the first-hour monitoring loop.
+- [ ] Record gaps and fix them before posting.
 
 ## T-0
 
-- [ ] Final smoke test.
-- [ ] Publish package.
-- [ ] Flip/publish repo.
-- [ ] Post Show HN.
-- [ ] Post founder first comment.
-- [ ] Publish social thread.
-- [ ] Monitor HN and issues.
-- [ ] Post Reddit natively after a delay.
+- [ ] H-90: final clean install and demo smoke.
+- [ ] H-75: verify site, package, repo, CI, issue tracker, and capture form.
+- [ ] H-60: freeze copy and links.
+- [ ] H-45: prepare HN submission and first comment.
+- [ ] H-30: prepare social/founder support post.
+- [ ] H-0: post Show HN.
+- [ ] H+5: post founder first comment if needed.
+- [ ] H+0 to H+240: monitor HN, GitHub issues, npm install path, site uptime, and capture notifications.
+- [ ] H+120 or later: post Reddit natively if still appropriate.
+- [ ] H+240: write same-day notes and follow-up list.
 
 ## T+1 To T+7
 
@@ -50,4 +91,3 @@ Hard rule: never solicit upvotes.
 - Broken install:
 - Bad bug:
 - Accidental leak:
-

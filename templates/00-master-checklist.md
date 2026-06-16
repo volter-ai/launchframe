@@ -248,14 +248,50 @@ Use `templates/repo/` and `templates/policies/`.
 
 ## 8. Launch Day
 
-1. Publish/flip repo.
-2. Publish package.
-3. Smoke test clean install.
-4. Post Show HN.
-5. Post founder first comment.
-6. Publish social thread.
-7. Monitor HN and GitHub issues.
-8. Post Reddit natively after HN has had time to breathe.
+Launch day is not a single post. Treat it as an operated sequence with rehearsals.
+
+### Tabletop Dry Run
+
+- [ ] Walk through `08-launch-day-runbook.md` without touching external systems.
+- [ ] Confirm every surface has an owner, URL, credential path, and fallback.
+- [ ] Confirm exact go/no-go criteria.
+- [ ] Confirm what is explicitly out of scope for launch day.
+- [ ] Record gaps in `PENDING.md`.
+
+### Live Dress Rehearsal
+
+Run against live surfaces, but do not post publicly.
+
+- [ ] Clean install from a temp directory.
+- [ ] Demo or validation command from a temp directory.
+- [ ] Site, repo, package, docs, issue tracker, and capture form opened and verified.
+- [ ] Tally/contact notification path verified or existing evidence rechecked.
+- [ ] HN/Reddit/social copy opened as drafts only.
+- [ ] First-hour monitoring loop rehearsed.
+- [ ] Gaps fixed and committed before real launch.
+
+### Launch-Day Simulation
+
+Run the same day or immediately before public posting.
+
+- [ ] Pick simulated `H` time.
+- [ ] Execute H-90 through H+60 without submitting public posts.
+- [ ] Confirm operator availability for 4-6 hours after real posting.
+- [ ] Confirm only critical fixes will be made after posting.
+- [ ] Make final go/no-go decision.
+
+### Real Launch
+
+- [ ] H-90: final clean install and demo smoke.
+- [ ] H-75: verify site, package, repo, CI, issue tracker, docs, and capture path.
+- [ ] H-60: freeze HN title, URL, first comment, and support copy.
+- [ ] H-45: prepare HN submission.
+- [ ] H-30: prepare founder/social support post.
+- [ ] H-0: post Show HN.
+- [ ] H+5: post founder first comment if useful.
+- [ ] H+0 to H+240: monitor HN, GitHub issues, npm install path, site uptime, and capture notifications.
+- [ ] H+120 or later: decide whether Reddit should post now or defer.
+- [ ] H+240: write same-day notes and follow-up list.
 
 ## 9. Post-Launch
 
