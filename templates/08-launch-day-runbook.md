@@ -43,24 +43,27 @@ Run this before touching external systems. The goal is to find missing steps, cr
 
 ## Live Dress Rehearsal
 
-Run against real deployed surfaces, but do not submit public posts.
+Run against real deployed surfaces and go all the way up to the final public submit/post action. Do not click the final submit/post buttons.
 
 - [ ] Run clean install from a temp directory.
 - [ ] Run the demo or validation command from a temp directory.
 - [ ] Open live site, npm/package page, GitHub repo, CI, issues, docs, security policy, and capture form.
 - [ ] Verify capture notification path or recheck prior evidence.
-- [ ] Open HN, Reddit, and social copy as drafts only.
+- [ ] Open the HN submission form, fill the final title and URL, and stop before final submit.
+- [ ] Prepare the HN first comment and stop before posting.
+- [ ] Open the Reddit post composer, fill subreddit/flair/link/copy, and stop before final submit.
+- [ ] Open the social/founder post composer, fill final copy/link/media, and stop before final publish.
 - [ ] Walk through first-hour monitoring: public post, comments, issues, install path, site uptime, capture notifications.
 - [ ] Commit fixes before moving to real launch.
 
 ## Launch-Day Simulation
 
-Run this before the real public post. Use live repo/site/package/capture links, but do not submit HN/Reddit/social posts.
+Run this before the real public post. Use live repo/site/package/capture links and fill the real posting forms, but do not click final submit/post.
 
 - [ ] Pick a simulated post time and assign one operator.
 - [ ] Run clean install and demo from a temp directory.
-- [ ] Open final HN title, URL, and first comment in draft form.
-- [ ] Open Reddit/social drafts in draft form.
+- [ ] Fill final HN title, URL, and first comment, then stop before final submit/post.
+- [ ] Fill Reddit and social composers, then stop before final submit/publish.
 - [ ] Verify site, package, repo, issue tracker, security docs, and capture form.
 - [ ] Verify notification path for signup/capture.
 - [ ] Walk through the first-hour monitoring loop.

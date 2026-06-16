@@ -14,12 +14,12 @@ No external side effects. Use this to prove the sequence is coherent.
 | 2 | Confirm surfaces: site, npm, GitHub repo, issues, security docs, Startup Pilot form. |  |
 | 3 | Confirm credential source: ignored `.env` in this repo. Do not print tokens. |  |
 | 4 | Confirm go/no-go criteria. |  |
-| 5 | Confirm no public post is submitted during rehearsal. |  |
+| 5 | Confirm the stop rule: fill live posting forms, but do not click final submit/post. |  |
 | 6 | Record gaps in `PENDING.md`. |  |
 
 ## Live Dress Rehearsal
 
-Run against live surfaces, but do not submit public posts.
+Run against live surfaces and go all the way up to the final public submit/post action. Do not click final submit/post.
 
 | Offset | Action | Done |
 |---|---|---|
@@ -27,13 +27,16 @@ Run against live surfaces, but do not submit public posts.
 | D-40 | Run `npx launchframe-cli validate workspace`. |  |
 | D-35 | Open live site, npm page, GitHub repo, issues, security docs, and Startup Pilot form. |  |
 | D-25 | Verify Tally capture/notification evidence. |  |
-| D-20 | Open final HN, Reddit, and social drafts without posting. |  |
+| D-20 | Fill the HN submission form with final title and URL, then stop before final submit. |  |
+| D-18 | Prepare the HN first comment, then stop before posting. |  |
+| D-15 | Fill Reddit composer with final subreddit/flair/link/copy, then stop before final submit. |  |
+| D-12 | Fill social/founder post composer with final copy/link/media, then stop before final publish. |  |
 | D-10 | Walk the first-hour monitoring loop. |  |
 | D+0 | Record and fix any public-user gaps before simulation or real launch. |  |
 
 ## Launch-Day Simulation
 
-Run once before the real post. Use live surfaces, but do not submit public posts.
+Run once before the real post. Use live surfaces and fill live posting forms, but do not click final submit/post.
 
 | Offset | Action | Done |
 |---|---|---|
@@ -41,8 +44,9 @@ Run once before the real post. Use live surfaces, but do not submit public posts
 | S-55 | Run `npx launchframe-cli init workspace` in a temp directory. |  |
 | S-50 | Run `npx launchframe-cli validate workspace`. |  |
 | S-45 | Open live site, npm page, GitHub repo, issues, security docs, and Startup Pilot form. |  |
-| S-35 | Verify final HN title, URL target, and first-comment draft. |  |
-| S-30 | Verify Reddit/social drafts without posting. |  |
+| S-35 | Fill final HN title and URL, then stop before final submit. |  |
+| S-32 | Prepare HN first comment, then stop before posting. |  |
+| S-30 | Fill Reddit/social composers, then stop before final submit/publish. |  |
 | S-20 | Submit a test Startup Pilot capture or verify current notification evidence. |  |
 | S-10 | Walk the first-hour monitoring loop: HN, issues, npm install, site, Tally. |  |
 | S+0 | Record any gaps. If gaps affect public users, fix before posting. |  |

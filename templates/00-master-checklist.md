@@ -260,13 +260,16 @@ Launch day is not a single post. Treat it as an operated sequence with rehearsal
 
 ### Live Dress Rehearsal
 
-Run against live surfaces, but do not post publicly.
+Run against live surfaces and go all the way up to the final public submit/post action. Do not click the final submit/post buttons.
 
 - [ ] Clean install from a temp directory.
 - [ ] Demo or validation command from a temp directory.
 - [ ] Site, repo, package, docs, issue tracker, and capture form opened and verified.
 - [ ] Tally/contact notification path verified or existing evidence rechecked.
-- [ ] HN/Reddit/social copy opened as drafts only.
+- [ ] HN submission form opened, final title and URL filled, and stopped before final submit.
+- [ ] HN first comment prepared and stopped before posting.
+- [ ] Reddit post composer opened, final copy/subreddit/flair/link filled, and stopped before final submit.
+- [ ] Social/founder post composer opened, final copy/link/media filled, and stopped before final publish.
 - [ ] First-hour monitoring loop rehearsed.
 - [ ] Gaps fixed and committed before real launch.
 
@@ -275,7 +278,7 @@ Run against live surfaces, but do not post publicly.
 Run the same day or immediately before public posting.
 
 - [ ] Pick simulated `H` time.
-- [ ] Execute H-90 through H+60 without submitting public posts.
+- [ ] Execute H-90 through H+60, including filling live posting forms, without clicking final submit/post.
 - [ ] Confirm operator availability for 4-6 hours after real posting.
 - [ ] Confirm only critical fixes will be made after posting.
 - [ ] Make final go/no-go decision.
