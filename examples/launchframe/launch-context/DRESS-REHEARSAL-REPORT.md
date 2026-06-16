@@ -17,12 +17,12 @@ Mode: live dress rehearsal up to final submit/post, with no public posting.
 | CI/Pages | Latest GitHub Actions runs | Passing |
 | HN account creation | `aaronyetc` | Created; credentials stored only in ignored `.env` |
 | HN submit form | `https://news.ycombinator.com/submit` | Reached after account creation; no post submitted |
-| Reddit submit form | `https://old.reddit.com/r/opensource/submit` | Reached signed in; title/body filled; no post submitted |
+| Reddit submit form | `https://old.reddit.com/r/opensource/submit` | Reached signed in; title/body/subreddit/flair filled; no post submitted |
 
 ## Stop Points
 
 - HN: stopped because `aaronyetc` was created during rehearsal and should not immediately post a launch.
-- Reddit: stopped before final submit. r/opensource requires correct post flair; `Promotional` is the likely fit for a project announcement.
+- Reddit: stopped before final submit with `Promotional` flair selected.
 - Social/founder post: draft exists, but no live composer was filled in this pass.
 
 ## Open Blockers
