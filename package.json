@@ -1,10 +1,11 @@
 {
   "name": "launchframe-cli",
-  "version": "0.1.0-beta.0",
+  "version": "0.1.0-beta.1",
   "description": "OSS launch-control workspaces for developer-tool launches.",
   "type": "module",
   "bin": {
-    "launchframe": "bin/launchframe.js"
+    "launchframe": "bin/launchframe.js",
+    "launchframe-cli": "bin/launchframe.js"
   },
   "files": [
     "bin/",
