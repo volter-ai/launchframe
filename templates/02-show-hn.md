@@ -10,6 +10,11 @@
 
 Use the GitHub repo for OSS launches unless the product requires a hosted demo to be understood.
 
+Final submission:
+
+Title:
+URL:
+
 ## Account Readiness
 
 - Use an established human HN account when possible.
@@ -29,6 +34,8 @@ Structure:
 6. Ask for feedback.
 
 Draft:
+
+Founder first comment:
 
 > Hi HN ...
 

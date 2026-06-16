@@ -46,10 +46,12 @@ const requiredOrgPaths = [
   ['product', 'public_name'],
   ['product', 'one_sentence_description'],
   ['product', 'launch_type'],
+  ['product', 'product_domains'],
   ['product', 'project_mechanism'],
   ['product', 'primary_user'],
   ['product', 'core_falsifiable_claim'],
-  ['launch', 'primary_channel']
+  ['launch', 'primary_channel'],
+  ['launch', 'readiness_mode']
 ];
 
 const launchTypes = new Set([
@@ -96,6 +98,39 @@ const readinessTemplateByType = {
   trust_privacy: 'surfaces/trust-privacy.md'
 };
 
+const readinessModes = new Set([
+  'pre_submit_ready',
+  'submitted_waiting',
+  'post_approval_ready',
+  'public_launch_ready'
+]);
+
+const evidenceStatuses = new Set([
+  'pass',
+  'verified',
+  'owner-approved',
+  'owner-approved-out-of-scope',
+  'owner-approved out of scope',
+  'blocked',
+  'deferred'
+]);
+
+const productDomains = new Set([
+  'infra',
+  'security',
+  'privacy',
+  'accessibility',
+  'finance',
+  'health',
+  'legal',
+  'local_ai',
+  'audio',
+  'desktop',
+  'marketplace',
+  'browser_app',
+  'other'
+]);
+
 export async function validateWorkspace(target, options = {}) {
   const root = resolve(target);
   const failures = [];
@@ -127,15 +162,22 @@ export async function validateWorkspace(target, options = {}) {
     if (!launchTypes.has(org.product?.launch_type)) {
       failures.push(`product.launch_type must be one of: ${Array.from(launchTypes).join(', ')}`);
     }
+    if (!readinessModes.has(org.launch?.readiness_mode)) {
+      failures.push(`launch.readiness_mode must be one of: ${Array.from(readinessModes).join(', ')}`);
+    }
     validateOwnerAuthorization(org, failures);
     validateDistributionSurfaces(org, failures);
     validateProfileRequiredSurfaces(org, failures);
+    validateProductDomains(org, failures);
     validateClaimRiskSurfaces(org, failures);
     validateNoUnresolvedPlaceholders(root, filesForPlaceholderValidation(org), failures);
-    validateOwnerAuthorizationMarkdown(root, failures);
+    validateOwnerAuthorizationMarkdown(root, org, failures);
     validateSelectedSurfaceModules(root, org, failures);
     validateEvidenceReport(root, org, failures);
     validateOwnerApprovalGate(root, org, failures);
+    validateReadinessMode(org, failures);
+    validateChannelReadiness(root, org, failures);
+    validateLaunchCopyConsistency(root, org, failures);
   }
 
   const prereqs = readIfExists(join(root, '00-external-prereqs.md'));
@@ -158,6 +200,23 @@ export async function validateWorkspace(target, options = {}) {
   }
 
   return { root, warnings };
+}
+
+function validateProductDomains(org, failures) {
+  const domains = org.product?.product_domains;
+  if (!Array.isArray(domains) || domains.length === 0) {
+    failures.push('product.product_domains must list at least one product domain');
+    return;
+  }
+  for (const domain of domains) {
+    if (hasPlaceholder(domain) || !productDomains.has(domain)) {
+      failures.push(`product.product_domains contains invalid value: ${domain}`);
+    }
+  }
+  const selected = requiredSurfaceTypes(org);
+  if ((domains.includes('local_ai') || domains.includes('audio')) && !selected.has('local_ai_desktop')) {
+    failures.push('local_ai or audio product domains require a required local_ai_desktop distribution surface');
+  }
 }
 
 function validateProfileRequiredSurfaces(org, failures) {
@@ -296,6 +355,27 @@ function validateOwnerAuthorization(org, failures) {
   }
 }
 
+function validateReadinessMode(org, failures) {
+  const mode = org.launch?.readiness_mode;
+  const requiredSurfaces = (org.distribution_surfaces || []).filter((surface) => surface.scope === 'required');
+  for (const surface of requiredSurfaces) {
+    if (mode === 'public_launch_ready') {
+      if (!['not_applicable', 'published'].includes(surface.async_review_state)) {
+        failures.push(`public_launch_ready requires ${surface.id}.async_review_state to be not_applicable or published`);
+      }
+      if (!['verified', 'published'].includes(surface.current_state)) {
+        failures.push(`public_launch_ready requires ${surface.id}.current_state to be verified or published`);
+      }
+    }
+    if (mode === 'post_approval_ready' && !['not_applicable', 'approved', 'published'].includes(surface.async_review_state)) {
+      failures.push(`post_approval_ready requires ${surface.id}.async_review_state to be not_applicable, approved, or published`);
+    }
+    if (mode === 'submitted_waiting' && !['not_applicable', 'submitted', 'changes_requested', 'approved', 'published'].includes(surface.async_review_state)) {
+      failures.push(`submitted_waiting requires ${surface.id}.async_review_state to be submitted, changes_requested, approved, published, or not_applicable`);
+    }
+  }
+}
+
 function validateSelectedSurfaceModules(root, org, failures) {
   const requiredSurfaces = (org.distribution_surfaces || []).filter((surface) => surface.scope === 'required');
   for (const surface of requiredSurfaces) {
@@ -310,7 +390,7 @@ function validateSelectedSurfaceModules(root, org, failures) {
     if (text.includes('- [ ]')) {
       failures.push(`required surface module still has unchecked readiness items: ${template}`);
     }
-    if (text.includes('- [x] ')) {
+    if (/^- \[x\] (?!verified\b|owner-approved\b|owner-approved out of scope\b|blocked\b)/m.test(text)) {
       failures.push(`required surface module uses plain [x]; use [x] verified, [x] owner-approved out of scope, or [x] blocked: ${template}`);
     }
     if (/\|\s*\|\s*\|\s*\|/.test(text)) {
@@ -331,24 +411,41 @@ function validateEvidenceReport(root, org, failures) {
   if (unresolved) failures.push(`unresolved placeholder in EVIDENCE-REPORT.md: ${unresolved}`);
 
   const requiredSurfaces = (org.distribution_surfaces || []).filter((surface) => surface.scope === 'required');
+  const rows = markdownRows(text);
   for (const surface of requiredSurfaces) {
-    const line = text.split('\n').find((candidate) => candidate.includes(surface.id) || candidate.includes(surface.name));
-    if (!line) {
+    const row = rows.find((candidate) => candidate.raw.includes(surface.id) || candidate.raw.includes(surface.name));
+    if (!row) {
       failures.push(`EVIDENCE-REPORT.md missing required surface evidence: ${surface.id}`);
       continue;
     }
-    if (/\b(TBD|TODO)\b/i.test(line) || /\|\s*(done|yes|n\/a|na)\s*\|/i.test(line)) {
+    if (/\b(TBD|TODO)\b/i.test(row.raw) || /\|\s*(done|yes|n\/a|na)\s*\|/i.test(row.raw)) {
       failures.push(`EVIDENCE-REPORT.md has weak evidence for required surface: ${surface.id}`);
+    }
+    const status = row.cells.at(-2)?.toLowerCase();
+    const date = row.cells.at(-1);
+    const evidence = row.cells.at(-4);
+    const result = row.cells.at(-3);
+    if (!evidence || evidence.length < 8) failures.push(`EVIDENCE-REPORT.md missing concrete evidence for required surface: ${surface.id}`);
+    if (!result || result.length < 4) failures.push(`EVIDENCE-REPORT.md missing concrete result for required surface: ${surface.id}`);
+    if (!evidenceStatuses.has(status)) failures.push(`EVIDENCE-REPORT.md invalid status for required surface ${surface.id}: ${status || 'missing'}`);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date || '')) failures.push(`EVIDENCE-REPORT.md missing YYYY-MM-DD date for required surface: ${surface.id}`);
+    if (org.launch?.readiness_mode === 'public_launch_ready' && status !== 'pass' && status !== 'verified') {
+      failures.push(`public_launch_ready requires pass/verified evidence for required surface: ${surface.id}`);
     }
   }
 }
 
-function validateOwnerAuthorizationMarkdown(root, failures) {
+function validateOwnerAuthorizationMarkdown(root, org, failures) {
   const text = readIfExists(join(root, '00-owner-authorization.md'));
   for (const label of ['- Status:', '- Approver:', '- Date:', '- Launch mode authorized:', '- Final approver for irreversible public actions:']) {
     if (!hasFilledLabel(text, label)) failures.push(`00-owner-authorization.md missing ${label}`);
   }
   if (hasBlankMarkdownRows(text)) failures.push('00-owner-authorization.md has blank table rows');
+  if (/\|\s*yes \/ no\s*\|/.test(text)) failures.push('00-owner-authorization.md still has unresolved yes/no choices');
+  const jsonStatus = org.owner_authorization?.authorization_status;
+  if (jsonStatus && !new RegExp(`- Status:\\s*${jsonStatus.replaceAll('_', '[ _-]')}`, 'i').test(text)) {
+    failures.push('00-owner-authorization.md status must match 00-org-context.json owner_authorization.authorization_status');
+  }
 }
 
 function validateOwnerApprovalGate(root, org, failures) {
@@ -360,14 +457,98 @@ function validateOwnerApprovalGate(root, org, failures) {
     failures.push('12-owner-approval-gate.md final verdict must be go, conditional go, or no-go');
   }
   if (hasBlankMarkdownRows(text)) failures.push('12-owner-approval-gate.md has blank table rows');
-  if (/\|\s*(agent \/ owner|yes \/ no|ready \/ blocked|verified \/ owner-approved|approved \/ needs review)/.test(text)) {
+  if (/\|\s*(agent \/ owner|yes \/ no|ready \/ blocked|verified \/ owner-approved|approved \/ needs review|publish \/ submit \/ no action)/.test(text)) {
     failures.push('12-owner-approval-gate.md still has unresolved choice text in tables');
+  }
+
+  if (!/\|\s*[^|]{4,}\s*\|\s*(README|site|HN|Reddit|social|docs)[^|]*\|\s*[^|]{8,}\s*\|\s*(verified|owner-approved|weakened|blocked)\s*\|/i.test(text)) {
+    failures.push('12-owner-approval-gate.md must include at least one completed public claim row');
   }
 
   const requiredSurfaces = (org.distribution_surfaces || []).filter((surface) => surface.scope === 'required');
   for (const surface of requiredSurfaces) {
-    if (!text.includes(surface.id) && !text.includes(surface.name)) {
+    const surfaceRow = markdownRows(text).find((row) => row.raw.includes(surface.id) || row.raw.includes(surface.name));
+    if (!surfaceRow) {
       failures.push(`12-owner-approval-gate.md missing required surface: ${surface.id}`);
+      continue;
+    }
+    if (!/(ready|blocked|async review|out of scope|published|verified)/i.test(surfaceRow.raw)) {
+      failures.push(`12-owner-approval-gate.md missing state for required surface: ${surface.id}`);
+    }
+  }
+
+  const actionRows = markdownRows(text).filter((row) =>
+    /Publish package|Flip repo public|Buy\/configure domain|Submit marketplace|Post Show HN|Post Reddit/.test(row.raw)
+  );
+  for (const row of actionRows) {
+    const approval = row.cells.at(-1)?.toLowerCase();
+    if (!['approved', 'rejected', 'not_applicable', 'not applicable'].includes(approval)) {
+      failures.push(`12-owner-approval-gate.md irreversible action approval must be approved, rejected, or not_applicable: ${row.cells[0] || 'action'}`);
+    }
+    for (const [index, cell] of row.cells.entries()) {
+      if (!cell || /agent \/ owner|owner \/ agent-assisted|human account|established human account/i.test(cell)) {
+        failures.push(`12-owner-approval-gate.md irreversible action row has unresolved cell ${index + 1}: ${row.cells[0] || 'action'}`);
+      }
+    }
+  }
+
+  for (const row of markdownRows(text)) {
+    if (/^(License|Privacy|Terms|Telemetry\/data use|Security\/support)$/.test(row.cells[0] || '')) {
+      if (row.cells.slice(1).some((cell) => !cell || /approved \/ needs review|yes \/ no|verified \/ needs review/i.test(cell))) {
+        failures.push(`12-owner-approval-gate.md legal/trust row incomplete: ${row.cells[0]}`);
+      }
+    }
+  }
+
+  for (const label of ['- Show HN title:', '- Show HN URL:', '- Founder first comment:', '- Communities intentionally avoided:']) {
+    if (org.launch?.primary_channel === 'Show HN' && !hasFilledLabel(text, label)) {
+      failures.push(`12-owner-approval-gate.md missing launch copy field ${label}`);
+    }
+  }
+}
+
+function validateChannelReadiness(root, org, failures) {
+  if (org.launch?.primary_channel !== 'Show HN') return;
+  const showHn = readIfExists(join(root, '02-show-hn.md'));
+  const rehearsal = readIfExists(join(root, '08-launch-day-runbook.md')) + '\n' + readIfExists(join(root, 'EVIDENCE-REPORT.md'));
+  for (const label of ['Title:', 'URL:', 'Founder first comment:']) {
+    if (!hasFilledLabel(showHn, label)) failures.push(`02-show-hn.md missing ${label}`);
+  }
+  if (!/account suitability|HN account|established human/i.test(showHn + '\n' + rehearsal)) {
+    failures.push('Show HN readiness requires account suitability evidence');
+  }
+  if (!/stop.*before.*submit|pre-submit|submit.*rehearsal/i.test(rehearsal)) {
+    failures.push('Show HN readiness requires stop-before-submit rehearsal evidence');
+  }
+}
+
+function validateLaunchCopyConsistency(root, org, failures) {
+  const publicText = [
+    'repo/README.md',
+    '00-brand-context.md',
+    '01-strategy.md',
+    '02-show-hn.md',
+    '04-social.md',
+    '05-reddit.md',
+    '06-outreach.md',
+    '12-owner-approval-gate.md'
+  ].map((file) => readIfExists(join(root, file))).join('\n');
+
+  const selected = requiredSurfaceTypes(org);
+  const checks = [
+    { pattern: /\bhomebrew\b/i, type: 'homebrew', label: 'Homebrew' },
+    { pattern: /\b(local ai|local transcription|transcribes locally|offline transcription)\b/i, type: 'local_ai_desktop', label: 'local AI/transcription' },
+    { pattern: /\b(no telemetry|private|encrypted|local-first|offline)\b/i, type: 'trust_privacy', label: 'privacy/local/offline' },
+    { pattern: /\b(signed|notarized|checksum)\b/i, type: 'github_release', label: 'signed/checksum desktop release' },
+    { pattern: /\bhelm\b/i, type: 'helm', label: 'Helm' },
+    { pattern: /\b(docker|ghcr|container image)\b/i, type: ['docker', 'ghcr'], label: 'Docker/GHCR' }
+  ];
+
+  for (const check of checks) {
+    if (!check.pattern.test(publicText)) continue;
+    const types = Array.isArray(check.type) ? check.type : [check.type];
+    if (!types.some((type) => selected.has(type))) {
+      failures.push(`public copy mentions ${check.label} but no matching required distribution surface is selected`);
     }
   }
 }
@@ -428,6 +609,16 @@ function hasBlankMarkdownRows(text) {
       const cells = line.split('|').slice(1, -1).map((cell) => cell.trim());
       return cells.length > 1 && cells.every((cell) => cell === '');
     });
+}
+
+function markdownRows(text) {
+  return text
+    .split('\n')
+    .filter((line) => line.trim().startsWith('|') && !line.includes('---'))
+    .map((line) => ({
+      raw: line,
+      cells: line.split('|').slice(1, -1).map((cell) => cell.trim())
+    }));
 }
 
 function isMissing(value) {

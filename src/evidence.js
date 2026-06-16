@@ -7,15 +7,15 @@ export async function createEvidenceReport(target) {
   const surfaces = await readDistributionSurfaces(root);
   const surfaceRows = surfaces.length
     ? surfaces.map((surface) => surfaceEvidenceRow(surface)).join('\n')
-    : '| Surface | Type | Scope | State | Verification Command | Evidence | Result |';
+    : '| Surface | Type | Scope | State | Verification Command | Evidence URL Or Command | Result | Status | Date |';
   const content = `# Launchframe Evidence Report
 
 Generated: ${now}
 
 ## Distribution Surface Evidence
 
-| Surface | Type | Scope | State | Verification Command | Evidence | Result |
-|---|---|---|---|---|---|---|
+| Surface | Type | Scope | State | Verification Command | Evidence URL Or Command | Result | Status | Date |
+|---|---|---|---|---|---|---|---|---|
 ${surfaceRows}
 
 ## Side-Effect Evidence
@@ -68,6 +68,8 @@ function surfaceEvidenceRow(surface) {
     surface.scope || 'unknown',
     surface.current_state || 'TBD',
     surface.verification_command || 'TBD',
+    'TBD',
+    'TBD',
     'TBD',
     'TBD'
   ].map(markdownCell).join('|').replace(/^/, '| ').replace(/$/, ' |');

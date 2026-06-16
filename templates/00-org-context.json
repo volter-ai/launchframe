@@ -23,6 +23,7 @@
     "public_name": "<Product>",
     "one_sentence_description": "<What it is, for whom, and why it matters>",
     "launch_type": "<cli|library|web_app|desktop_app|kubernetes_operator|docs_site|marketplace_plugin|other>",
+    "product_domains": ["<infra|security|privacy|accessibility|finance|health|legal|local_ai|audio|desktop|marketplace|browser_app|other>"],
     "launch_objective": "<mindshare|installs|contributors|design_partners|pipeline|other>",
     "launch_scope": "<what is included in this launch>",
     "project_mechanism": "<how it works in concrete product terms>",
@@ -174,9 +175,10 @@
     "data_retention_summary": "<verified summary or TBD>"
   },
   "launch": {
-    "primary_channel": "Show HN",
+    "primary_channel": "<Show HN|Reddit|social|none|other>",
     "link_target": "<github_repo|landing_page|demo>",
     "launch_date_time": "<YYYY-MM-DD HH:MM TZ or TBD>",
+    "readiness_mode": "<pre_submit_ready|submitted_waiting|post_approval_ready|public_launch_ready>",
     "founder_available_hours": 6,
     "product_hunt_in_scope": false,
     "reddit_in_scope": true,

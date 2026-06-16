@@ -73,14 +73,14 @@ Link or summarize:
 
 ## Irreversible Actions Requested
 
-| Action | Target | Credential/path | Operator | Approved? |
+| Action | Target | Credential/path | Operator | Approval |
 |---|---|---|---|---|
-| Publish package/listing | | | agent / owner | yes / no |
-| Flip repo public | | | agent / owner | yes / no |
-| Buy/configure domain | | | agent / owner | yes / no |
-| Submit marketplace/app review | | | agent / owner | yes / no |
-| Post Show HN | | established human account | owner / agent-assisted | yes / no |
-| Post Reddit/social | | human account | owner / agent-assisted | yes / no |
+| Publish package/listing | | | agent / owner | approved / rejected / not_applicable |
+| Flip repo public | | | agent / owner | approved / rejected / not_applicable |
+| Buy/configure domain | | | agent / owner | approved / rejected / not_applicable |
+| Submit marketplace/app review | | | agent / owner | approved / rejected / not_applicable |
+| Post Show HN | | established human account | owner / agent-assisted | approved / rejected / not_applicable |
+| Post Reddit/social | | human account | owner / agent-assisted | approved / rejected / not_applicable |
 
 ## Final Go/No-Go
 
